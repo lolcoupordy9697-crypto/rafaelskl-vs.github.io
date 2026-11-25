@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ergo Palet — Paletização de ferrita sem peso nas costas</title>
+<meta name="description" content="Ergo Palet: plataforma mecânica auto-nivelante de energia zero (ErgoGiro Eco) para paletização ergonômica, econômica e sustentável de sacos de ferrita.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=IBM+Plex+Mono:wght@400;600&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0e10; --bg2:#13171a; --panel:#181d21; --line:#2a3238;
+  --ink:#e9edef; --mute:#93a0a8; --ferrite:#3b4650;
+  --accent:#F59E0B; --accent2:#2fd08a; --yellow:#EAB308; --danger:#ff5a47;
+  --r:14px; --line2:#38424a; --steel:#3b4650; --amber:#F59E0B; --amber2:#EAB308; --green:#2fd08a; --red:#ff5a47; color-scheme:dark;
+  --display:'Barlow Condensed','Arial Narrow',Impact,sans-serif;
+  --body:'Barlow',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.6;overflow-x:hidden;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:48px 48px}
+a{color:inherit}
+.wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+section{padding:96px 0;position:relative}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;line-height:1.02;letter-spacing:.01em}
+h2{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800}
+h3{font-size:1.5rem;font-weight:700}
+.eyebrow{font-family:var(--mono);font-size:.78rem;color:var(--accent);letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--accent)}
+.lead{color:var(--mute);font-size:1.1rem;max-width:680px;margin-top:16px}
+.hazard{height:12px;background:repeating-linear-gradient(-45deg,var(--yellow) 0 14px,#111 14px 28px)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;background:rgba(12,14,16,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:var(--display);font-weight:800;font-size:1.6rem;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo svg{width:30px;height:30px}
+.logo b{color:var(--accent)}
+.links{display:flex;gap:16px;list-style:none}
+.links a{text-decoration:none;font-size:.86rem;color:var(--mute);font-weight:500;transition:.2s}
+.links a:hover,.links a.on{color:var(--accent)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#111;font-family:var(--display);font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:.04em;padding:12px 24px;border:0;border-radius:6px;cursor:pointer;text-decoration:none;transition:.2s;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.btn:hover{transform:translateY(-2px);background:#EAB308}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line);clip-path:none;border-radius:6px}
+.btn.ghost:hover{box-shadow:inset 0 0 0 2px var(--accent);color:var(--accent)}
+.burger{display:none;background:none;border:1px solid var(--line);color:var(--ink);width:42px;height:42px;border-radius:8px;font-size:1.3rem;cursor:pointer}
+
+/* HERO */
+.hero{padding:70px 0 90px;min-height:calc(100vh - 76px);display:flex;align-items:center}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(3.2rem,9vw,7rem);font-weight:800}
+.hero h1 em{font-style:normal;color:var(--accent);display:block}
+.hero h1 span{-webkit-text-stroke:2px var(--ink);color:transparent}
+.hero p{color:var(--mute);font-size:1.18rem;max-width:520px;margin:22px 0 30px}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.stats{display:flex;gap:34px;margin-top:44px;flex-wrap:wrap}
+.stat b{font-family:var(--display);font-size:2.6rem;color:var(--accent);display:block;line-height:1}
+.stat small{color:var(--mute);font-size:.82rem;font-family:var(--mono)}
+.hero-art{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;position:relative}
+.hero-art::before{content:"PROTÓTIPO · ERGOGIRO ECO";position:absolute;top:-11px;left:18px;background:var(--bg);padding:0 10px;font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.12em}
+.hero-art svg{width:100%;height:auto;display:block}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bag-anim{animation:bob 3.2s ease-in-out infinite}
+.ring-anim{transform-origin:200px 232px;animation:none}
+
+/* CARDS */
+.grid{display:grid;gap:20px;margin-top:44px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:26px;position:relative;transition:.25s}
+.card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.card .num{font-family:var(--mono);color:var(--accent);font-size:.8rem;letter-spacing:.14em}
+.card h3{margin:8px 0 8px}
+.card p{color:var(--mute);font-size:.97rem}
+.card.risk{border-left:4px solid var(--danger)}
+.card.risk .num{color:var(--danger)}
+.ico{width:46px;height:46px;border-radius:10px;background:rgba(245,158,11,.12);display:grid;place-items:center;margin-bottom:14px;color:var(--accent);font-size:1.4rem}
+.pill{display:inline-block;font-family:var(--mono);font-size:.72rem;padding:3px 10px;border-radius:99px;border:1px solid var(--line);color:var(--mute);margin:10px 6px 0 0}
+
+/* SIMULATOR */
+.sim{background:var(--bg2);border-block:1px solid var(--line)}
+.sim-box{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;margin-top:40px}
+.stage{background:#0a0c0e;border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.stage svg{width:100%;height:auto;display:block}
+.ctrl{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:24px}
+.ctrl label{font-family:var(--mono);font-size:.78rem;color:var(--mute);letter-spacing:.1em;text-transform:uppercase}
+.big{font-family:var(--display);font-size:3.4rem;font-weight:800;color:var(--accent);line-height:1}
+input[type=range]{width:100%;accent-color:var(--accent);margin:12px 0 4px;height:6px}
+.row{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px;padding-top:14px;border-top:1px dashed var(--line)}
+.row span{color:var(--mute);font-size:.92rem}
+.row b{font-family:var(--mono);font-size:1.05rem}
+.ok{color:var(--accent2)}.bad{color:var(--danger)}
+.meter{height:10px;border-radius:99px;background:#0a0c0e;border:1px solid var(--line);overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;width:0;transition:width .4s,background .4s}
+.toggle{display:flex;gap:8px;margin-top:20px}
+.toggle button{flex:1;font-family:var(--display);font-size:1rem;text-transform:uppercase;padding:10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--mute);cursor:pointer}
+.toggle button.on{background:var(--accent);color:#111;border-color:var(--accent);font-weight:700}
+
+.t3{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;align-items:baseline;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:.9rem}
+.t3 span{color:var(--mute)}.t3 b{font-family:var(--mono);font-size:.92rem;text-align:right}
+.t3.h{border:0;margin-top:18px}.t3.h b{font-family:var(--display);text-transform:uppercase;color:var(--accent);font-size:1.05rem}
+.warn{display:none;margin-top:14px;padding:10px 12px;border-radius:8px;border:1px solid var(--accent);background:rgba(245,158,11,.1);font-size:.82rem;color:var(--accent)}
+/* MODULES */
+.modules{display:grid;grid-template-columns:240px 1fr;gap:22px;margin-top:40px}
+.tabs{display:flex;flex-direction:column;gap:8px}
+.tab{text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--mute);padding:16px;border-radius:10px;cursor:pointer;font-family:var(--display);font-size:1.15rem;text-transform:uppercase;transition:.2s}
+.tab small{display:block;font-family:var(--mono);font-size:.68rem;color:var(--accent);letter-spacing:.12em}
+.tab.on,.tab:hover{border-color:var(--accent);color:var(--ink)}
+.tab.on{background:rgba(245,158,11,.08)}
+.pane{display:none;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:30px}
+.pane.on{display:block;animation:fade .35s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.pane h3{font-size:2rem;margin-bottom:10px;color:var(--accent)}
+.pane p{color:var(--mute);margin-bottom:12px}
+.pane ul{list-style:none;margin-top:10px}
+.pane li{padding:8px 0 8px 26px;position:relative;border-bottom:1px dashed var(--line);font-size:.97rem}
+.pane li::before{content:"▸";position:absolute;left:0;color:var(--accent)}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin-top:36px;background:var(--panel);border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
+th,td{padding:15px 18px;text-align:left;font-size:.95rem;border-bottom:1px solid var(--line)}
+th{font-family:var(--display);text-transform:uppercase;font-size:1.1rem;letter-spacing:.05em;background:#0f1316}
+.cmp td:nth-child(2){color:var(--danger)}.cmp td:nth-child(3){color:var(--accent2)}
+tr:last-child td{border:0}
+.tablewrap{overflow-x:auto}
+
+/* CALC */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:40px}
+.field{margin-bottom:16px}
+.field label{display:block;font-family:var(--mono);font-size:.74rem;color:var(--mute);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+input[type=number],input[type=text],input[type=email],textarea,select{width:100%;background:#0a0c0e;border:1px solid var(--line);color:var(--ink);padding:12px 14px;border-radius:8px;font:inherit;font-family:var(--mono);font-size:.95rem}
+textarea{min-height:130px;resize:vertical;font-family:var(--body)}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.result{background:linear-gradient(160deg,#1c2216,#14180f);border:1px solid #3a4a1a}
+.result .big{font-size:3rem}
+.note{font-size:.78rem;color:var(--mute);font-family:var(--mono);margin-top:14px}
+
+/* SAFETY CHECK */
+.check{list-style:none;margin-top:30px}
+.check li{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:10px}
+.check label{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;cursor:pointer}
+.check input{appearance:none;width:24px;height:24px;border:2px solid var(--mute);border-radius:6px;flex:none;margin-top:2px;cursor:pointer;display:grid;place-items:center;transition:.2s}
+.check input:checked{background:var(--accent2);border-color:var(--accent2)}
+.check input:checked::after{content:"✓";color:#05140c;font-weight:800}
+.check li:has(input:checked){border-color:var(--accent2)}
+.check b{display:block;font-family:var(--display);text-transform:uppercase;font-size:1.15rem}
+.check span{color:var(--mute);font-size:.9rem}
+.progress{height:14px;background:#0a0c0e;border:1px solid var(--line);border-radius:99px;margin-top:22px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s}
+.badge{margin-top:12px;font-family:var(--mono);color:var(--mute)}
+
+/* FAQ */
+.faq-search{margin-top:28px}
+.faq details{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:10px;transition:.2s}
+.faq details[open]{border-color:var(--accent)}
+.faq summary{cursor:pointer;padding:18px 22px;font-family:var(--display);font-size:1.25rem;text-transform:uppercase;list-style:none;display:flex;justify-content:space-between;gap:14px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--accent);font-size:1.6rem;line-height:1;transition:.25s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 22px 20px;color:var(--mute)}
+.hide{display:none!important}
+.empty{color:var(--mute);font-family:var(--mono);padding:14px 0}
+
+/* DUVIDAS */
+.ask{display:grid;grid-template-columns:.8fr 1.2fr;gap:30px;margin-top:40px;align-items:start}
+.ask-form{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:28px}
+.msgbox{margin-top:16px;padding:14px;border-radius:8px;background:rgba(47,208,138,.1);border:1px solid var(--accent2);color:var(--accent2);display:none;font-size:.92rem}
+.inbox{margin-top:12px}
+.q{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.q small{font-family:var(--mono);color:var(--mute);font-size:.72rem}
+.q p{margin-top:4px;font-size:.95rem}
+.q em{color:var(--accent);font-style:normal;font-family:var(--mono);font-size:.74rem}
+
+/* QUOTE + FOOT */
+.quote{text-align:center;padding:110px 0;background:radial-gradient(circle at 50% 0,rgba(245,158,11,.12),transparent 60%)}
+.quote blockquote{font-family:var(--display);font-size:clamp(1.8rem,4.6vw,3.4rem);text-transform:uppercase;font-weight:700;line-height:1.1;max-width:960px;margin:0 auto}
+.quote blockquote b{color:var(--accent)}
+footer{border-top:1px solid var(--line);padding:44px 0;color:var(--mute);font-size:.9rem}
+.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.foot ul{list-style:none;display:flex;gap:18px;flex-wrap:wrap}
+.top{position:fixed;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:var(--accent);color:#111;border:0;font-size:1.3rem;cursor:pointer;display:none;z-index:40}
+
+.rev{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}
+.rev.in{opacity:1;transform:none}
+
+@media(max-width:1280px){.nav-cta{display:none}}
+@media(max-width:940px){
+  .hero-grid,.sim-box,.modules,.calc,.ask{grid-template-columns:1fr}
+  .g3,.g4{grid-template-columns:1fr 1fr}
+  .tabs{flex-direction:row;overflow-x:auto}.tab{min-width:170px}
+  .links{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;background:var(--bg);padding:18px 22px;border-bottom:1px solid var(--line);gap:14px}
+  .links.open{display:flex}.burger{display:block}
+  .nav-cta{display:none}
+}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}section{padding:70px 0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== Projeto técnico (ex-site ErgoGiro Eco), isolado em #lab ===== */
+#lab section{padding:80px 0}
+#lab .btn{display:inline-block;clip-path:none;transition:none;text-decoration:none;gap:0;line-height:1.3}
+#lab .btn:hover{transform:none;background:rgba(23,28,32,.92)}
+#lab .tabs{flex-direction:row;overflow:visible}
+#lab .card{transition:border-color .2s,transform .2s}
+#lab input[type=range]{height:auto}
+#lab table{margin-top:0;border:0;border-radius:0}
+#lab .vhint,#lab .vstep{z-index:2}
+#lab .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+#lab .chip{font-family:var(--mono);font-size:.76rem;border:1px solid var(--line2);border-radius:99px;padding:5px 12px;color:var(--ink);background:var(--panel)}
+#lab .chip b{color:var(--amber);font-weight:600}
+#lab .vgrid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:18px;margin-top:26px;align-items:start}
+#lab .viewer{position:relative;border:1px solid var(--line2);border-radius:12px;overflow:hidden;background:#0b0d0f;aspect-ratio:16/10;min-height:360px}
+#lab .viewer canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+#lab .viewer canvas:active{cursor:grabbing}
+#lab .vtools{position:absolute;left:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap;max-width:calc(100% - 20px)}
+#lab .vstep{position:absolute;right:10px;top:10px;font-family:var(--mono);font-size:.74rem;background:rgba(11,13,15,.85);border:1px solid var(--line2);border-radius:6px;padding:6px 10px;color:var(--amber);max-width:48%;text-align:right}
+#lab .vhint{position:absolute;left:10px;bottom:8px;font-family:var(--mono);font-size:.68rem;color:var(--mute);background:rgba(11,13,15,.7);padding:3px 8px;border-radius:4px}
+#lab .vfail{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:24px;color:var(--mute);font-size:.95rem}
+#lab .btn{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;font-size:.95rem;font-weight:700;color:var(--ink);background:rgba(23,28,32,.92);border:1px solid var(--line2);border-radius:6px;padding:6px 12px;cursor:pointer}
+#lab .btn:hover{border-color:var(--amber);color:var(--amber)}
+#lab .btn.on{background:var(--amber);color:#111;border-color:var(--amber)}
+#lab .btn.big{padding:10px 16px;font-size:1.05rem}
+#lab .btn:focus-visible,#lab input:focus-visible,#lab select:focus-visible,#lab a:focus-visible,#lab .card:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+#lab .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+#lab .panel + .panel{margin-top:14px}
+#lab .panel h3{font-size:1.1rem;color:var(--amber);margin-bottom:10px}
+#lab .ctl{display:grid;gap:4px;margin-bottom:14px}
+#lab .ctl label,#lab .lab{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+#lab .ctl .val{font-family:var(--display);font-size:1.5rem;font-weight:700;line-height:1}
+#lab input[type=range]{width:100%;accent-color:var(--amber);margin:4px 0}
+#lab .seg{display:flex;gap:6px;flex-wrap:wrap}
+#lab .seg .btn{flex:1;min-width:56px;text-align:center}
+#lab .tg{display:flex;flex-wrap:wrap;gap:6px}
+#lab .kv{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:.9rem;margin:0}
+#lab .kv dt{color:var(--mute)}
+#lab .kv dd{margin:0;font-family:var(--mono);text-align:right}
+#lab .ok{color:var(--green)}
+#lab .bad{color:var(--red)}
+#lab .warnc{color:var(--amber)}
+#lab .note{font-family:var(--mono);font-size:.72rem;color:var(--mute);margin-top:12px;line-height:1.5}
+#lab .alert{border:1px solid var(--amber);background:rgba(245,158,11,.08);border-radius:10px;padding:12px 14px;font-size:.88rem;margin-top:12px}
+#lab .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:24px}
+#lab .sheet{margin-top:14px;border:1px solid var(--line2);border-radius:12px;background:#0c0f11;overflow-x:auto}
+#lab .sheet svg{display:block;width:100%;min-width:640px;height:auto}
+#lab .sheet-cap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 14px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.72rem;color:var(--mute)}
+#lab svg .ln{stroke:var(--ink);fill:none;stroke-width:1.4}
+#lab svg .fl{fill:#2b343b;stroke:var(--ink);stroke-width:1.2}
+#lab svg .am{fill:rgba(245,158,11,.22);stroke:var(--amber);stroke-width:1.3}
+#lab svg .gr{stroke:var(--green);fill:none;stroke-width:1.7}
+#lab svg .sk{stroke:#8d9863;fill:none;stroke-width:1.3}
+#lab svg .wd{fill:#6b5a3a;stroke:var(--ink);stroke-width:1}
+#lab svg .bag{fill:#3b4650;stroke:#93a0a8;stroke-width:1}
+#lab svg .hid{stroke:var(--mute);stroke-dasharray:5 4;fill:none;stroke-width:1}
+#lab svg .ghost{stroke:var(--amber);stroke-dasharray:6 4;fill:none;stroke-width:1.1;opacity:.7}
+#lab svg .ctr{stroke:var(--amber);stroke-dasharray:16 3 2 3;fill:none;stroke-width:1}
+#lab svg .dm{stroke:var(--amber);fill:none;stroke-width:1}
+#lab svg .af{fill:var(--amber)}
+#lab svg .dt{fill:var(--amber);font:600 11px var(--mono)}
+#lab svg .tx{fill:var(--ink);font:11px var(--mono)}
+#lab svg .tm{fill:var(--mute);font:10px var(--mono)}
+#lab svg .ttl{fill:var(--ink);font:700 15px var(--display);text-transform:uppercase;letter-spacing:.04em}
+#lab svg .zone{fill:rgba(47,208,138,.1);stroke:var(--green);stroke-dasharray:5 4;stroke-width:1}
+#lab svg .floorl{stroke:var(--ink);stroke-width:2.2;fill:none}
+#lab svg .conc{fill:#1a2025;stroke:none}
+#lab svg .bal{fill:var(--bg);stroke:var(--amber);stroke-width:1.5}
+#lab svg .balt{fill:var(--amber);font:700 12px var(--mono)}
+#lab svg .hatch{fill:url(#none)}
+#lab .steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-top:26px}
+#lab .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;cursor:pointer;text-align:left;color:inherit;font:inherit;transition:border-color .2s,transform .2s}
+#lab .card:hover{border-color:var(--amber);transform:translateY(-2px)}
+#lab .card.on{border-color:var(--amber);background:rgba(245,158,11,.07)}
+#lab .card .n{font-family:var(--display);font-size:2.4rem;font-weight:800;color:var(--amber);line-height:1}
+#lab .card h3{margin:4px 0 8px}
+#lab .card p{color:var(--mute);font-size:.9rem}
+#lab .card .chk{margin-top:10px;font-size:.84rem;color:var(--ink);border-top:1px dashed var(--line2);padding-top:8px}
+#lab .card .chk b{color:var(--green);font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;display:block}
+#lab .card .tl{margin-top:8px;font-family:var(--mono);font-size:.7rem;color:var(--mute)}
+#lab .tw{overflow-x:auto;margin-top:22px;border:1px solid var(--line2);border-radius:12px}
+#lab table{width:100%;border-collapse:collapse;min-width:720px;background:var(--panel)}
+#lab th,#lab td{padding:10px 14px;text-align:left;font-size:.88rem;border-bottom:1px solid var(--line);vertical-align:top}
+#lab th{font-family:var(--display);text-transform:uppercase;letter-spacing:.05em;font-size:1rem;background:#0f1316;position:sticky;top:0}
+#lab tr.grp td{background:rgba(245,158,11,.08);font-family:var(--display);text-transform:uppercase;font-size:1.05rem;letter-spacing:.04em;color:var(--amber)}
+#lab td.qt{font-family:var(--mono);text-align:right}
+#lab tr:last-child td{border-bottom:0}
+#lab .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:22px}
+#lab .oplist{list-style:none;padding:0;margin:0;counter-reset:op}
+#lab .oplist li{counter-increment:op;padding:10px 0 10px 42px;position:relative;border-bottom:1px dashed var(--line2);font-size:.92rem}
+#lab .oplist li::before{content:counter(op);position:absolute;left:0;top:8px;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--amber);color:var(--amber);font:700 .8rem var(--mono);display:grid;place-items:center}
+@media(max-width:940px){#lab .vgrid{grid-template-columns:minmax(0,1fr)}#lab .vstep{max-width:60%}}
+@media(max-width:520px){#lab .viewer{aspect-ratio:4/3;min-height:300px}#lab .vstep{display:none}#lab section{padding:56px 0}}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a href="#inicio" class="logo" aria-label="Ergo Palet">
+      <svg viewBox="0 0 32 32" fill="none"><rect x="2" y="22" width="28" height="6" fill="#F59E0B"/><path d="M6 22L16 12L26 22" stroke="#e9edef" stroke-width="2.5"/><path d="M6 12L16 22L26 12" stroke="#93a0a8" stroke-width="2.5"/><rect x="9" y="3" width="14" height="6" fill="#3b4650" stroke="#e9edef"/></svg>
+      Ergo<b>Palet</b>
+    </a>
+    <ul class="links" id="links">
+      <li><a href="#problema">Problema</a></li>
+      <li><a href="#solucao">Solução</a></li>
+      <li><a href="#simulador">Simulador</a></li>
+      <li><a href="#prototipo">Protótipo</a></li>
+      <li><a href="#modelo3d">Modelo 3D</a></li>
+      <li><a href="#desenhos">Desenhos</a></li>
+      <li><a href="#montagem">Montagem</a></li>
+      <li><a href="#normas">Normas</a></li>
+      <li><a href="#roi">Economia</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#duvidas">Dúvidas</a></li>
+    </ul>
+    <a href="#duvidas" class="btn nav-cta">Fale conosco</a>
+    <button class="burger" id="burger" aria-label="Abrir menu">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header id="inicio" class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Karakuri Kaizen · Energia zero</div>
+      <h1>Ergo <span>Palet:</span><em>Sem peso nas costas.</em></h1>
+      <p>Plataforma mecânica auto-nivelante para paletização de sacos de ferrita de 20–25 kg. Gravidade, molas e alavancas — sem motor, sem óleo hidráulico, sem lesão lombar.</p>
+      <div class="cta">
+        <a href="#simulador" class="btn">Testar o simulador →</a>
+        <a href="#modelo3d" class="btn ghost">Ver o modelo 3D</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b data-count="70">0</b><small>% MAIS BARATO</small></div>
+        <div class="stat"><b data-count="0">0</b><small>kWh · LITROS DE ÓLEO</small></div>
+        <div class="stat"><b data-count="90">0</b><small>cm ALTURA FIXA</small></div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 400 330">
+        <rect x="0" y="288" width="400" height="42" fill="#13171a"/>
+        <line x1="0" y1="288" x2="400" y2="288" stroke="#2a3238" stroke-width="2"/>
+        <!-- calha -->
+        <g>
+          <line x1="10" y1="92" x2="170" y2="106" stroke="#93a0a8" stroke-width="5"/>
+          <g fill="#3b4650" stroke="#e9edef" stroke-width="1.5">
+            <circle cx="30" cy="96" r="5"/><circle cx="60" cy="98" r="5"/><circle cx="90" cy="101" r="5"/><circle cx="120" cy="103" r="5"/><circle cx="150" cy="105" r="5"/>
+          </g>
+          <line x1="20" y1="100" x2="20" y2="288" stroke="#2a3238" stroke-width="4"/>
+          <line x1="160" y1="110" x2="160" y2="288" stroke="#2a3238" stroke-width="4"/>
+          <g class="bag-anim"><rect x="52" y="64" width="46" height="24" rx="4" fill="#3b4650" stroke="#F59E0B" stroke-width="2"/><text x="75" y="80" text-anchor="middle" font-family="monospace" font-size="9" fill="#F59E0B">FERRITA</text></g>
+        </g>
+        <!-- pallet stack -->
+        <g>
+          <rect x="190" y="150" width="150" height="14" fill="#3b4650" stroke="#e9edef" stroke-width="1.5"/>
+          <rect x="190" y="136" width="150" height="14" fill="#2c353d" stroke="#e9edef" stroke-width="1.5"/>
+          <rect x="190" y="122" width="150" height="14" fill="#3b4650" stroke="#e9edef" stroke-width="1.5"/>
+          <rect x="188" y="164" width="154" height="10" fill="#F59E0B"/>
+          <!-- pantograph -->
+          <g stroke="#e9edef" stroke-width="5" fill="none"><line x1="200" y1="174" x2="330" y2="268"/><line x1="330" y1="174" x2="200" y2="268"/></g>
+          <path d="M214 196 q8 6 0 12 q-8 6 0 12 q8 6 0 12" stroke="#2fd08a" stroke-width="3" fill="none"/>
+          <path d="M316 196 q8 6 0 12 q-8 6 0 12 q8 6 0 12" stroke="#2fd08a" stroke-width="3" fill="none"/>
+          <rect x="180" y="268" width="170" height="20" fill="#2a3238" stroke="#93a0a8" stroke-width="2"/>
+          <ellipse cx="265" cy="178" rx="78" ry="4" fill="none" stroke="#F59E0B" stroke-dasharray="6 4"/>
+        </g>
+        <!-- guide -->
+        <line x1="355" y1="122" x2="395" y2="122" stroke="#F59E0B" stroke-dasharray="4 4"/>
+        <text x="360" y="114" font-family="monospace" font-size="10" fill="#F59E0B">90 cm</text>
+      </svg>
+    </div>
+  </div>
+</header>
+<div class="hazard"></div>
+
+<!-- PROBLEMA -->
+<section id="problema">
+  <div class="wrap">
+    <div class="eyebrow rev">01 · Diagnóstico</div>
+    <h2 class="rev">O saco de 25 kg<br>cobra caro do operador</h2>
+    <p class="lead rev">Ferrita é um cerâmico de óxido de ferro: alta densidade em embalagem compacta. Sem apoio mecânico, o corpo paga a conta já nas primeiras horas do turno.</p>
+    <div class="grid g4">
+      <div class="card risk rev"><div class="num">RISCO 01</div><h3>Sobrecarga lombar</h3><p>Camadas abaixo de 15 cm e acima de 1,40 m obrigam a flexionar ou hiperestender a coluna com 25 kg longe do eixo do corpo.</p></div>
+      <div class="card risk rev"><div class="num">RISCO 02</div><h3>Torção de tronco</h3><p>Pegar na esteira e girar para o lado oposto do palete gera cisalhamento nos discos intervertebrais.</p></div>
+      <div class="card risk rev"><div class="num">RISCO 03</div><h3>Alcance excessivo</h3><p>Preencher cantos distantes com braços estendidos sobrecarrega ombros e escápulas.</p></div>
+      <div class="card risk rev"><div class="num">RISCO 04</div><h3>Ritmo e desperdício</h3><p>Cansaço reduz a velocidade, aumenta quedas e rasgos de sacos e espalha poeira mineral no ambiente.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUÇÃO -->
+<section id="solucao" style="background:var(--bg2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="eyebrow rev">02 · Estratégia</div>
+    <h2 class="rev">Três pilares.<br>Cinco medidas.</h2>
+    <div class="grid g3">
+      <div class="card rev"><div class="ico">♥</div><h3>Saúde e segurança</h3><p>Zona de pega e deposição sempre na altura neutra da cintura (80–95 cm). Trocar o ato de levantar pelo de deslizar.</p></div>
+      <div class="card rev"><div class="ico">$</div><h3>Baixo custo</h3><p>Peças padronizadas ou reaproveitadas da manutenção. Retorno rápido pela redução de afastamentos e ganho de produtividade.</p></div>
+      <div class="card rev"><div class="ico">♻</div><h3>Produção limpa</h3><p>Zero eletricidade na movimentação vertical, zero óleo hidráulico e menos plástico descartável na logística interna.</p></div>
+    </div>
+    <div class="grid g3" style="margin-top:20px">
+      <div class="card rev"><div class="num">MEDIDA 1</div><h3>Gravidade em nível constante</h3><p>Calha de roletes livres entrega o saco na altura da cintura.</p></div>
+      <div class="card rev"><div class="num">MEDIDA 2</div><h3>Nivelamento energia zero</h3><p>Molas calibradas ou contrapeso abaixam o palete conforme o peso cresce.</p></div>
+      <div class="card rev"><div class="num">MEDIDA 3</div><h3>Base giratória de baixo atrito</h3><p>Gira o palete com uma mão: sem esticar os braços nem dar a volta.</p></div>
+      <div class="card rev"><div class="num">MEDIDA 4</div><h3>Cintas reutilizáveis</h3><p>Poliéster industrial no transporte interno; filme stretch só na expedição.</p></div>
+      <div class="card rev"><div class="num">MEDIDA 5</div><h3>Posto padronizado</h3><p>Layout 5S, tapete antifadiga e rodízio de funções a cada 2 horas.</p></div>
+      <div class="card rev" style="border-style:dashed"><div class="num">RESULTADO</div><h3>Operação mais leve</h3><p>Mais rápida, limpa e financeiramente saudável.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULADOR -->
+<section id="simulador" class="sim">
+  <div class="wrap">
+    <div class="eyebrow rev">03 · Simulador</div>
+    <h2 class="rev">Veja a altura<br>de trabalho mudar</h2>
+    <p class="lead rev">Adicione de 0 a 10 camadas de sacos (~14 cm e ~100 kg cada). No palete no chão o topo sobe e sai da zona ergonômica; no Ergo Palet, as molas comprimem e o topo permanece em ~90 cm.</p>
+    <div class="sim-box">
+      <div class="stage">
+        <svg id="simsvg" viewBox="0 0 760 520" role="img" aria-label="Comparativo lado a lado: palete no chão e Ergo Palet"></svg>
+      </div>
+      <div class="ctrl">
+        <label for="layers">Camadas empilhadas (0–10)</label>
+        <div class="big" id="lv">0</div>
+        <input type="range" id="layers" min="0" max="10" value="0">
+        <div class="t3 h"><span></span><b>No chão</b><b>Ergo Palet</b></div>
+        <div class="t3"><span>Altura do topo</span><b id="ht">—</b><b id="he">—</b></div>
+        <div class="t3"><span>Zona ideal 80–95</span><b id="zt">—</b><b id="ze">—</b></div>
+        <div class="t3"><span>Índice de flexão</span><b id="ft">—</b><b id="fx">—</b></div>
+        <div class="meter"><i id="mt"></i></div><div class="meter"><i id="me"></i></div>
+        <div class="row"><span>Carga total no palete</span><b id="ol">—</b></div>
+        <div class="row"><span>Curso das molas</span><b id="os">—</b></div>
+        <div class="warn" id="warn"></div>
+        <p class="note">Modelo didático: palete base 15 cm, camada de ~14 cm e ~100 kg. O índice mede o afastamento da altura neutra (90 cm).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROTÓTIPO -->
+<section id="prototipo">
+  <div class="wrap">
+    <div class="eyebrow rev">04 · Protótipo original</div>
+    <h2 class="rev">ErgoGiro Eco<br>4 módulos, 0 motores</h2>
+    <p class="lead rev">Inspirado no Karakuri Kaizen: automação de baixo custo movida só por gravidade, molas e alavancas.</p>
+    <div class="modules rev">
+      <div class="tabs" role="tablist">
+        <button class="tab on" data-t="0"><small>MÓDULO 01</small>Calha por gravidade</button>
+        <button class="tab" data-t="1"><small>MÓDULO 02</small>Pantógrafo a molas</button>
+        <button class="tab" data-t="2"><small>MÓDULO 03</small>Mesa giratória 360°</button>
+        <button class="tab" data-t="3"><small>MÓDULO 04</small>Cinta reutilizável</button>
+      </div>
+      <div>
+        <div class="pane on">
+          <h3>Calha de roletes livres</h3>
+          <p>Os sacos saem da ensacadeira e deslizam por uma rampa de roletes sem motor, com inclinação leve de 3° a 5°, até a borda da plataforma a 90 cm do chão.</p>
+          <ul><li>O trabalhador não ergue o saco: só o desliza na horizontal.</li><li>Roletes em PVC Schedule 80 ou aço galvanizado com eixos simples.</li></ul>
+        </div>
+        <div class="pane">
+          <h3>Pantógrafo auto-nivelante</h3>
+          <p>Estrutura em tesoura sob o palete, com molas helicoidais calibradas para a massa dos sacos (Lei de Hooke).</p>
+          <ul><li>Mesa vazia a 75 cm; com o palete PBR de 15 cm, o topo de trabalho fica em 90 cm.</li><li>Cada camada (~100 kg) comprime as molas ~14 cm, mantendo a superfície de trabalho na mesma altura.</li><li>Molas de suspensão automotiva recondicionadas ou padronizadas.</li></ul>
+          <div class="field" style="margin-top:22px;max-width:380px"><label>Calculadora da Lei de Hooke · massa da camada (kg)</label><input type="number" id="hm" value="100" min="10" max="400"></div>
+          <div class="field" style="max-width:380px"><label>Altura (compressão) desejada por camada (cm)</label><input type="number" id="hx" value="14" min="5" max="30"></div>
+          <div class="row"><span>Rigidez total necessária (k = F/x)</span><b id="hk">—</b></div>
+          <div class="row"><span>Com 4 molas, cada uma</span><b id="hk4">—</b></div>
+          <p class="note">Cálculo de referência da lei de Hooke; o dimensionamento final deve ser feito e validado por engenheiro responsável.</p>
+        </div>
+        <div class="pane">
+          <h3>Mesa giratória com trava de pedal</h3>
+          <p>Anel giratório sobre rolamento axial de carga. O operador pisa no pedal, gira o palete 180° com uma mão e segue empilhando sempre de frente para o corpo.</p>
+          <ul><li>Ao soltar o pedal, uma trava dentada bloqueia o giro.</li><li>Cubo de roda/rolamento industrial recondicionado (+1.500 kg, atrito mínimo).</li><li>Elimina torção de tronco e alcance excessivo.</li></ul>
+        </div>
+        <div class="pane">
+          <h3>Cinta perimetral reutilizável</h3>
+          <p>Cinta de poliéster industrial com fecho rápido, acoplada à lateral da estação, estabiliza o palete até a doca.</p>
+          <ul><li>Substitui o filme stretch descartável na movimentação interna.</li><li>O plástico fica restrito à expedição final.</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta rev" style="margin-top:36px"><a href="#modelo3d" class="btn">Explorar o modelo 3D →</a><a href="#desenhos" class="btn ghost">Ver desenhos técnicos</a></div>
+    <div class="eyebrow rev" style="margin-top:80px">Materiais e economia circular</div>
+    <div class="grid g3">
+      <div class="card rev"><h3>Estrutura</h3><p>Aço carbono estrutural (tubos quadrados e vigas U), com sobras certificadas da caldeiraria da fábrica.</p></div>
+      <div class="card rev"><h3>Pintura</h3><p>Eletrostática a pó, sem VOCs e com 98% de reaproveitamento da tinta.</p></div>
+      <div class="card rev"><h3>Proteção NR-12</h3><p>Saia sanfonada de lona de caminhão reciclada, que também protege as molas da poeira de ferrita.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETO TÉCNICO -->
+<div id="lab">
+<!-- 3D -->
+<section id="modelo3d"><div class="wrap">
+  <div class="eyebrow">08 · Projeto técnico · Modelo 3D interativo</div>
+  <h2>Gire, explode e monte</h2>
+  <p class="lead">Arraste para girar, role para aproximar. Use as camadas para ver o pantógrafo comprimir e o topo ficar em 900 mm. Use as etapas para ver a ordem de montagem.</p>
+
+  <div class="chips"><span class="chip">Topo de trabalho <b>900 mm</b></span><span class="chip">Mesa vazia <b>750 mm</b></span><span class="chip">Carga nominal <b>6 × 100 kg</b></span><span class="chip">Giro <b>360° com pedal</b></span><span class="chip">Calha <b>4° · 1800 mm</b></span><span class="chip">Motores <b>0</b></span></div>
+  <div class="vgrid">
+    <div>
+      <div class="viewer" id="viewer">
+        <canvas id="cv" aria-label="Modelo 3D do ErgoGiro Eco"></canvas>
+        <div class="vtools" id="vtools">
+          <button class="btn" data-view="iso">Isométrica</button>
+          <button class="btn" data-view="front">Frontal</button>
+          <button class="btn" data-view="side">Lateral</button>
+          <button class="btn" data-view="top">Planta</button>
+          <button class="btn on" data-view="ready" id="bReady">Pronto</button>
+        </div>
+        <div class="vstep" id="vstep">Pronto · 8 etapas montadas</div>
+        <div class="vhint">arrastar: girar · roda/pinça: zoom</div>
+        <div class="vfail" id="vfail">Não foi possível carregar o motor 3D (precisa de conexão para baixar a biblioteca). Os desenhos 2D e a lista de materiais abaixo funcionam normalmente.</div>
+      </div>
+      <div class="alert" id="alert" hidden></div>
+    </div>
+
+    <div>
+      <div class="panel">
+        <h3>Carga e piso</h3>
+        <div class="ctl"><label for="rLayers">Camadas de sacos</label><div class="val" id="vLayers">3</div><input type="range" id="rLayers" min="0" max="6" step="1" value="3"></div>
+        <div class="ctl"><span class="lab">Fosso sob a base</span>
+          <div class="seg" id="segPit">
+            <button class="btn" data-pit="0">0</button><button class="btn" data-pit="300">300</button><button class="btn" data-pit="400">400</button><button class="btn on" data-pit="500">500 mm</button>
+          </div></div>
+        <div class="ctl"><span class="lab">Giro da mesa</span>
+          <div class="tg"><button class="btn" id="bPedal" aria-pressed="false">Pisar pedal</button><button class="btn" id="bSpin">Girar 180°</button></div></div>
+        <dl class="kv" id="tele">
+          <dt>Topo da pilha</dt><dd id="tHeight">—</dd>
+          <dt>Zona ideal 80–95 cm</dt><dd id="tZone">—</dd>
+          <dt>Carga no palete</dt><dd id="tLoad">—</dd>
+          <dt>Altura da mesa</dt><dd id="tTable">—</dd>
+          <dt>Ângulo do pantógrafo</dt><dd id="tAngle">—</dd>
+          <dt>Camadas até o batente</dt><dd id="tMax">—</dd>
+        </dl>
+      </div>
+
+      <div class="panel">
+        <h3>Montagem</h3>
+        <div class="ctl"><label for="rStep">Etapa</label><div class="val" id="vStep">8 / 8</div><input type="range" id="rStep" min="0" max="8" step="1" value="8"></div>
+        <div class="tg"><button class="btn" id="bPrev">◀ Anterior</button><button class="btn" id="bNext">Próxima ▶</button><button class="btn on" id="bPlay">▶ Animar montagem</button></div>
+        <div class="ctl" style="margin-top:14px"><label for="rExp">Vista explodida</label><input type="range" id="rExp" min="0" max="100" value="0"></div>
+        <div class="tg" id="tg">
+          <button class="btn on" data-tg="op">Operador</button>
+          <button class="btn on" data-tg="skirt">Saia</button>
+          <button class="btn on" data-tg="strap">Cinta</button>
+          <button class="btn on" data-tg="glass">Piso translúcido</button>
+          <button class="btn on" data-tg="bag">Saco na calha</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note">Modelo didático em escala real (1 unidade = 1 m). Mesa a 750 mm vazia + palete PBR de 150 mm = topo de trabalho em 900 mm. Pré-dimensionamento: a validação final é do engenheiro responsável.</p>
+</div></section>
+
+<!-- 2D -->
+<section id="desenhos" style="background:var(--bg2);border-block:1px solid var(--line)"><div class="wrap">
+  <div class="eyebrow">Desenhos técnicos 2D · cotas em mm</div>
+  <h2>Pranchas de projeto</h2>
+  <p class="lead">Cinco pranchas geradas a partir das mesmas dimensões do modelo 3D: elevação vazio × carregado, planta, corte da mesa giratória, explodido numerado e detalhe da calha.</p>
+  <div class="tabs" id="tabs2d">
+    <button class="btn on" data-d="d1">1 · Elevação</button>
+    <button class="btn" data-d="d2">2 · Planta</button>
+    <button class="btn" data-d="d3">3 · Corte A–A</button>
+    <button class="btn" data-d="d4">4 · Explodido</button>
+    <button class="btn" data-d="d5">5 · Calha</button>
+  </div>
+  <div class="sheet" id="sheet"></div>
+  <div class="sheet-cap"><span id="capL"></span><span>Pré-dimensionamento · validar com engenheiro habilitado</span></div>
+</div></section>
+
+<!-- Montagem -->
+<section id="montagem"><div class="wrap">
+  <div class="eyebrow">Esquema de montagem</div>
+  <h2>Oito etapas, do piso à validação</h2>
+  <p class="lead">Clique em uma etapa para ver as peças dela destacadas no modelo 3D. A numeração é a mesma do explodido 2D e da lista de materiais.</p>
+  <div class="steps" id="steps"></div>
+</div></section>
+
+<!-- BOM -->
+<section id="materiais" style="background:var(--bg2);border-block:1px solid var(--line)"><div class="wrap">
+  <div class="eyebrow">Lista de materiais</div>
+  <h2>Peças e especificações</h2>
+  <p class="lead">Perfis e chapas podem sair de sobras da caldeiraria. Pintura eletrostática a pó em toda a estrutura de aço.</p>
+  <div class="tw"><table id="bom"><thead><tr><th>Peça</th><th style="text-align:right">Qtd.</th><th>Especificação</th><th>Material</th></tr></thead><tbody></tbody></table></div>
+</div></section>
+
+<!-- Pronto -->
+<section id="pronto"><div class="wrap">
+  <div class="eyebrow">Como fica pronto</div>
+  <h2>Estação em operação</h2>
+  <p class="lead">O botão "Pronto" do modelo mostra a estação completa: calha a 900 mm, operador de frente para a carga, pedal à direita e cinta aplicada.</p>
+  <div class="cols">
+    <div class="panel">
+      <h3>Ficha técnica</h3>
+      <dl class="kv">
+        <dt>Base (quadro)</dt><dd>1300 × 1100 mm</dd>
+        <dt>Mesa giratória (deck)</dt><dd>1200 × 1000 mm</dd>
+        <dt>Palete</dt><dd>PBR 1200 × 1000 × 150</dd>
+        <dt>Mesa vazia / topo</dt><dd>750 / 900 mm</dd>
+        <dt>Cota de trabalho</dt><dd>900 mm fixa</dd>
+        <dt>Camada</dt><dd>~140 mm · ~100 kg</dd>
+        <dt>Carga nominal</dt><dd>600 kg (6 camadas)</dd>
+        <dt>Ensaio (125%)</dt><dd>750 kg</dd>
+        <dt>Rigidez total</dt><dd>~7,0 N/mm (4 × 1,75)</dd>
+        <dt>Pantógrafo</dt><dd>4 estágios · braço 600</dd>
+        <dt>Calha</dt><dd>1800 mm · 4°</dd>
+        <dt>Raio de giro do palete</dt><dd>Ø 1562 mm</dd>
+        <dt>Energia / óleo</dt><dd>0 kWh / 0 L</dd>
+      </dl>
+    </div>
+    <div class="panel">
+      <h3>Rotina do operador</h3>
+      <ol class="oplist">
+        <li>O saco sai da ensacadeira e desce a calha de roletes até 900 mm.</li>
+        <li>O operador desliza o saco na horizontal sobre o palete, sem levantar.</li>
+        <li>A cada camada de ~100 kg o palete desce ~140 mm e o topo continua em 900 mm.</li>
+        <li>Frente concluída: pisa o pedal, gira o palete 180° com uma mão e solta o pedal. A trava dentada bloqueia.</li>
+        <li>Palete cheio: aplica a cinta reutilizável e libera para o estoque.</li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3>Decisão de projeto: fosso</h3>
+      <p style="color:var(--mute);font-size:.92rem">O pantógrafo não fecha totalmente: o curso útil depende de quanto a base pode descer. Com a base no piso, o curso é de ~380 mm e a estação suporta 2 camadas. Com fosso de 500 mm, o curso chega a ~880 mm e atende as 6 camadas. Use os botões de fosso no modelo para ver cada caso.</p>
+      <p class="note">Alternativas ao fosso: mais estágios no pantógrafo ou palete parcial de 2 a 3 camadas.</p>
+    </div>
+  </div>
+</div></section>
+
+
+</div>
+
+<!-- ANTES x DEPOIS -->
+<section style="background:var(--bg2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="eyebrow rev">09 · Impacto</div>
+    <h2 class="rev">Antes vs. depois</h2>
+    <div class="tablewrap rev cmp">
+      <table>
+        <thead><tr><th>Aspecto</th><th>Palete no chão</th><th>Ergo Palet</th></tr></thead>
+        <tbody>
+          <tr><td>Altura de pega</td><td>De 15 cm a mais de 1,40 m</td><td>Constante, na cintura (~90 cm)</td></tr>
+          <tr><td>Esforço</td><td>Levantar 20–25 kg</td><td>Deslizar a carga</td></tr>
+          <tr><td>Postura da coluna</td><td>Flexão, hiperextensão e torção</td><td>Postura neutra, giro com uma mão</td></tr>
+          <tr><td>Energia / Óleo</td><td>Empilhadeira ou mesa elétrica/hidráulica</td><td>Zero kWh, zero óleo</td></tr>
+          <tr><td>Plástico interno</td><td>Filme stretch descartável</td><td>Cinta reutilizável</td></tr>
+          <tr><td>Custo do equipamento</td><td>R$ 18–35 mil (mesa comercial)</td><td>R$ 3,5–5,5 mil (estimado)</td></tr>
+          <tr><td>Manutenção</td><td>Válvulas, bombas, eletrônica</td><td>Graxa biodegradável e inspeção visual</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- NORMAS -->
+<section id="normas">
+  <div class="wrap">
+    <div class="eyebrow rev">10 · Conformidade</div>
+    <h2 class="rev">Alinhado às NRs</h2>
+    <div class="grid g3">
+      <div class="card rev"><div class="num">NR-17</div><h3>Ergonomia</h3><p>Exige a Análise Ergonômica do Trabalho (AET) e que o transporte manual de cargas seja facilitado por meios técnicos quando o peso ou a repetitividade comprometerem a saúde.</p></div>
+      <div class="card rev"><div class="num">NR-12</div><h3>Máquinas e equipamentos</h3><p>Dispositivos auxiliares, como pantógrafos e travas giratórias, precisam de proteção contra esmagamento, limitadores de curso e travamento seguro.</p></div>
+      <div class="card rev"><div class="num">NR-1</div><h3>GRO / PGR</h3><p>Integra os riscos ergonômicos e mecânicos ao Programa de Gerenciamento de Riscos, com planos de ação mensuráveis e treinamento contínuo.</p></div>
+    </div>
+
+    <h3 class="rev" style="margin-top:70px;font-size:2rem">Checklist de validação antes de operar</h3>
+    <p class="lead rev" style="margin-top:8px">Marque cada item. Só libere o turno com 100%.</p>
+    <ul class="check rev" id="check">
+      <li><label><input type="checkbox"><div><b>Batentes mecânicos de fim de curso</b><span>Pinos de aço impedem descida além do limite e subida brusca se o palete for removido.</span></div></label></li>
+      <li><label><input type="checkbox"><div><b>Saia de proteção periférica</b><span>Fechamento flexível em todo o perímetro da tesoura, sem ponto de pinçamento.</span></div></label></li>
+      <li><label><input type="checkbox"><div><b>Trava positiva de giro</b><span>Travada por padrão; só gira com o pedal pressionado.</span></div></label></li>
+      <li><label><input type="checkbox"><div><b>Teste de carga estática e dinâmica</b><span>Validação com 125% da carga máxima nominal antes da liberação.</span></div></label></li>
+      <li><label><input type="checkbox"><div><b>AET e inclusão no PGR</b><span>Análise ergonômica registrada e riscos integrados ao programa da empresa.</span></div></label></li>
+    </ul>
+    <div class="progress"><i id="pbar"></i></div>
+    <div class="badge" id="ptxt">0 de 5 itens verificados</div>
+  </div>
+</section>
+
+<!-- ROI -->
+<section id="roi" style="background:var(--bg2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="eyebrow rev">11 · Viabilidade</div>
+    <h2 class="rev">Calcule o retorno</h2>
+    <p class="lead rev">Ajuste os valores para a sua realidade. O resultado é uma estimativa para apoiar a decisão.</p>
+    <div class="calc rev">
+      <div class="card" style="transform:none">
+        <div class="field"><label>Custo do Ergo Palet (R$)</label><input type="number" id="c1" value="4500" min="0"></div>
+        <div class="field"><label>Custo da mesa elevatória comercial (R$)</label><input type="number" id="c2" value="26500" min="0"></div>
+        <div class="field"><label>Custo de um afastamento por lesão (R$)</label><input type="number" id="c3" value="15000" min="0"></div>
+        <div class="field"><label>Afastamentos evitados por ano</label><input type="number" id="c4" value="1" min="0" step="0.5"></div>
+        <div class="field"><label>Quantidade de postos</label><input type="number" id="c5" value="2" min="1"></div>
+      </div>
+      <div class="card result" style="transform:none">
+        <label style="font-family:var(--mono);font-size:.75rem;color:var(--mute);letter-spacing:.1em">ECONOMIA VS. MESA COMERCIAL</label>
+        <div class="big" id="r1">—</div>
+        <div class="row"><span>Redução de custo</span><b id="r2">—</b></div>
+        <div class="row"><span>Economia anual com afastamentos</span><b id="r3">—</b></div>
+        <div class="row"><span>Payback estimado</span><b id="r4">—</b></div>
+        <p class="note">Valores padrão baseados nas faixas do projeto: mesa comercial R$ 18–35 mil e Ergo Palet R$ 3,5–5,5 mil (estimativas).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="eyebrow rev">12 · Perguntas frequentes</div>
+    <h2 class="rev">Tire suas dúvidas</h2>
+    <div class="faq-search rev"><input type="text" id="fs" placeholder="Buscar na FAQ… (ex.: mola, custo, NR-12)"></div>
+    <div class="faq rev" id="faq" style="margin-top:22px">
+      <details><summary>O que é o Ergo Palet?</summary><p>É um projeto de melhoria ergonômica, econômica e sustentável para a paletização de sacos de ferrita, cujo protótipo se chama ErgoGiro Eco. Ele mantém o topo da pilha na altura da cintura e permite girar o palete 360°, sem motores.</p></details>
+      <details><summary>Funciona sem eletricidade mesmo?</summary><p>Sim. A movimentação vertical usa molas calibradas (ou contrapeso), a alimentação usa gravidade em roletes livres e o giro é manual com trava de pedal. Não há motor, sensor eletrônico nem cilindro hidráulico.</p></details>
+      <details><summary>Quanto custa construir?</summary><p>A estimativa do projeto é de R$ 3.500 a R$ 5.500 se fabricado internamente ou em serralheria industrial local, contra R$ 18.000 a R$ 35.000 de uma mesa eletro-hidráulica comercial com base giratória. É uma estimativa e varia por região e materiais.</p></details>
+      <details><summary>Que peso o equipamento suporta?</summary><p>O projeto considera sacos de 20–25 kg e camadas de cerca de 100 kg. O rolamento de giro suporta mais de 1.500 kg, e o teste de validação usa 125% da carga máxima nominal. A capacidade final deve ser definida no dimensionamento pelo engenheiro responsável.</p></details>
+      <details><summary>Como as molas mantêm a altura constante?</summary><p>Pela lei de Hooke: a força da mola é proporcional à compressão. Calibrando a rigidez para ~100 kg por ~14 cm de camada, cada camada comprime as molas na medida certa e o topo fica sempre em torno de 90 cm. Use a calculadora na seção do protótipo.</p></details>
+      <details><summary>Atende a NR-12?</summary><p>O projeto prevê batentes de fim de curso, saia de proteção contra esmagamento, trava positiva de giro e teste de carga, que são elementos exigidos pela NR-12 para dispositivos mecânicos. A conformidade final depende de avaliação técnica no local.</p></details>
+      <details><summary>E a poeira de ferrita? Danifica o mecanismo?</summary><p>Não há placas eletrônicas nem válvulas sensíveis à poeira magnética. As molas ficam protegidas por uma saia de lona reciclada e a manutenção se resume a graxa biodegradável no rolamento e inspeção visual.</p></details>
+      <details><summary>Como substituir o filme stretch?</summary><p>Uma cinta perimetral de poliéster industrial com fecho rápido estabiliza o palete na movimentação interna até a doca. O filme plástico passa a ser usado apenas na expedição final.</p></details>
+      <details><summary>Serve para outros produtos além de ferrita?</summary><p>Sim, para cargas densas e padronizadas com peso por camada semelhante. As molas precisam ser recalibradas para a nova massa e espessura de camada.</p></details>
+      <details><summary>Qual é o retorno do investimento?</summary><p>A prevenção de um único afastamento por lesão na coluna, com encargos, substituição de mão de obra e queda de produção, já pode pagar a construção do equipamento. Simule na seção de economia.</p></details>
+    </div>
+    <div class="empty hide" id="fe">Nenhum resultado. Envie sua pergunta na área de dúvidas abaixo.</div>
+  </div>
+</section>
+
+<!-- DÚVIDAS -->
+<section id="duvidas" style="background:var(--bg2);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="eyebrow rev">13 · Área de dúvidas</div>
+    <h2 class="rev">Não achou?<br>Pergunte.</h2>
+    <div class="ask">
+      <form class="ask-form rev" id="form">
+        <div class="field"><label for="nm">Nome</label><input type="text" id="nm" required maxlength="80"></div>
+        <div class="field"><label for="em">E-mail</label><input type="email" id="em" required maxlength="120"></div>
+        <div class="field"><label for="tp">Assunto</label>
+          <select id="tp"><option>Projeto e funcionamento</option><option>Custos e retorno</option><option>Normas (NR-1, NR-12, NR-17)</option><option>Materiais e construção</option><option>Outro</option></select></div>
+        <div class="field"><label for="ms">Sua dúvida</label><textarea id="ms" required maxlength="800"></textarea></div>
+        <button class="btn" type="submit">Enviar dúvida</button>
+        <div class="msgbox" id="mb"></div>
+      </form>
+      <div class="rev">
+        <h3>Suas dúvidas neste dispositivo</h3>
+        <p class="note" style="margin:6px 0 14px">As perguntas ficam salvas apenas no seu navegador, pois este site é estático e não possui servidor. Para enviar a um responsável, use o botão de e-mail que aparece após registrar.</p>
+        <div class="inbox" id="inbox"></div>
+        <button class="btn ghost" id="clr" style="margin-top:8px;display:none">Limpar histórico</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="quote">
+  <div class="wrap rev">
+    <div class="eyebrow" style="justify-content:center">Frase de impacto</div>
+    <blockquote>“Inovar na indústria não é gastar mais energia para mover o peso; é usar <b>inteligência mecânica</b> para que o trabalhador nunca precise carregá-lo.”</blockquote>
+  </div>
+</div>
+<div class="hazard"></div>
+
+<footer>
+  <div class="wrap foot">
+    <div><div class="logo" style="font-size:1.4rem">Ergo<b>Palet</b></div><p style="margin-top:8px;max-width:360px">Paletização de ferrita ergonômica, econômica e sustentável. Projeto conceitual: implantações exigem avaliação e dimensionamento por profissional habilitado.</p></div>
+    <ul><li><a href="#problema">Problema</a></li><li><a href="#prototipo">Protótipo</a></li><li><a href="#modelo3d">Modelo 3D</a></li><li><a href="#desenhos">Desenhos</a></li><li><a href="#normas">Normas</a></li><li><a href="#faq">FAQ</a></li><li><a href="#duvidas">Dúvidas</a></li></ul>
+  </div>
+  <div class="wrap" style="margin-top:26px;font-family:var(--mono);font-size:.74rem">© <span id="yr"></span> Ergo Palet · Valores de custo são estimativas.</div>
+</footer>
+<button class="top" id="top" aria-label="Voltar ao topo">↑</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+
+(function(){
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+
+/* ================= parâmetros e cinemática ================= */
+const P={L:.60,N:4,thMin:3*Math.PI/180,baseH:.08,rail:.03,stackT:.10,tableEmpty:.75,palletH:.15,layerH:.14,sz:.38};
+const dMin=P.N*P.L*Math.sin(P.thMin);
+const stopH=2*P.rail+dMin;
+function solve(n,pit){
+  const baseTop=P.baseH-pit;
+  const minTop=baseTop+stopH+P.stackT;
+  const free=P.tableEmpty-minTop;
+  const maxLayers=Math.max(0,Math.floor(free/P.layerH+1e-9));
+  const want=P.tableEmpty-P.layerH*n;
+  const table=Math.max(want,minTop);
+  const topS=table-P.stackT;
+  const s=(topS-baseTop-2*P.rail)/P.N;
+  const th=Math.asin(Math.min(1,Math.max(0,s/P.L)));
+  return {baseTop,minTop,free,maxLayers,table,topS,s,th,bottomed:want<minTop-1e-9};
+}
+
+/* ================= estado ================= */
+const S={n:3,nA:3,pit:.5,explode:0,eA:0,step:8,hl:false,rot:0,rotT:0,pedal:false,
+  op:true,skirt:true,strap:true,glass:true,bag:true,playing:null};
+
+/* ================= etapas e BOM (dados) ================= */
+const STEPS=[
+ {g:'base',   t:'Base e fosso', d:'Marque a planta de 1,5 × 1,3 m e, se houver fosso, escave 500 mm. Solde o quadro de tubo 80×80×4 (1300 × 1100 mm, com 3 travessas) e fixe as 4 chapas de ancoragem com chumbadores.', c:'Quadro nivelado a ±2 mm e diagonais iguais.', tl:'Solda MIG, esmerilhadeira, nível, trena'},
+ {g:'springs',t:'Molas e hastes-guia', d:'Fixe 4 hastes-guia nos cantos internos do quadro e encaixe as 4 molas helicoidais (≈1,75 N/mm cada). As molas dão a carga que faz o palete descer na medida certa.', c:'Hastes a 90° da base e molas centradas, sem roçar.', tl:'Esquadro, graxa, chave 24'},
+ {g:'scissor',t:'Pantógrafo', d:'Monte dois conjuntos laterais de 4 estágios (braços 60×30×3 de 600 mm), com pinos Ø20 e buchas. Os trilhos de base e topo recebem os roletes deslizantes.', c:'Os dois lados abrem e fecham juntos, sem folga lateral.', tl:'Prensa/ martelo de borracha, graxa biodegradável'},
+ {g:'stops',  t:'Batentes de curso', d:'Instale 4 batentes inferiores (coluna Ø60) que param o pantógrafo antes de fechar por completo e 2 limitadores superiores (cabo de aço) que seguram a subida brusca se o palete for retirado.', c:'Altura mínima e máxima ajustadas e travadas.', tl:'Chave 30, torquímetro'},
+ {g:'turn',   t:'Mesa giratória e pedal', d:'Fixe o quadro superior, o rolamento axial, o anel giratório e o deck de chapa xadrez. Monte pedal e trava dentada: a trava fica travada por padrão e só libera com o pedal pressionado.', c:'Giro livre com uma mão e trava firme ao soltar o pedal.', tl:'Chave 19, graxa biodegradável'},
+ {g:'skirt',  t:'Saia sanfonada', d:'Prenda a lona reciclada na base e no quadro superior, em todo o perímetro. Ela fecha o acesso ao pantógrafo (NR-12) e protege as molas da poeira de ferrita.', c:'Nenhum ponto de pinçamento para pés ou mãos em todo o curso.', tl:'Rebitador, régua metálica'},
+ {g:'chute',  t:'Calha de roletes', d:'Posicione a calha com o último rolete a 900 mm do piso e inclinação de 3° a 5° (adotado 4°). Deixe um vão pequeno (~40 mm) até a borda do palete.', c:'Saco desliza sozinho e para na borda sem cair no vão.', tl:'Nível digital, trena'},
+ {g:'load',   t:'Carga, cinta e validação', d:'Coloque o palete, aplique 125% da carga nominal (750 kg) em teste estático e dinâmico, instale as cintas e feche o checklist de segurança antes de liberar o turno.', c:'Topo permanece em 900 mm do vazio até 6 camadas. AET e PGR registrados.', tl:'Pesos de aferição, checklist NR-12/17'}
+];
+const BOM=[
+ {s:1,name:'Base e ancoragem',rows:[
+  ['Quadro (tubo quadrado)',1,'80×80×4: 2×1300, 2×1100 e 3×940 mm','Aço carbono (sobras da caldeiraria)'],
+  ['Chapa de ancoragem',4,'150×150×12 com chumbador M12','Aço carbono']]},
+ {s:2,name:'Molas e hastes-guia',rows:[
+  ['Mola helicoidal',4,'≈1,75 N/mm cada (7,0 N/mm no conjunto)','Suspensão automotiva recond./padronizada'],
+  ['Haste-guia',4,'Ø25 × curso do projeto','Aço trefilado']]},
+ {s:3,name:'Pantógrafo',rows:[
+  ['Braço',16,'Perfil retangular 60×30×3 · 600 mm entre eixos','Aço carbono'],
+  ['Pino de articulação',28,'Ø20 × 80 com bucha','Aço 1045 / bucha nylon'],
+  ['Trilho de base e topo',4,'Perfil U · 1100 mm','Aço carbono'],
+  ['Rolete deslizante',8,'Ø40','Aço / nylon']]},
+ {s:4,name:'Batentes',rows:[
+  ['Batente inferior',4,'Coluna Ø60 × ~190 mm (altura do pantógrafo fechado)','Aço carbono'],
+  ['Limitador superior',2,'Cabo Ø6 com olhal e ajuste','Aço galvanizado']]},
+ {s:5,name:'Mesa giratória e pedal',rows:[
+  ['Quadro superior',1,'Chapa 1200×1000×6 com moldura','Aço carbono'],
+  ['Rolamento axial / cubo',1,'≥1.500 kg · Ø≈320 mm','Industrial recondicionado'],
+  ['Anel giratório',1,'Ø800 × 6 com dentes na face inferior','Aço carbono'],
+  ['Deck',1,'1200×1000 · chapa xadrez 4,75','Aço antiderrapante'],
+  ['Pedal, mola e trava dentada',1,'Alavanca, pino Ø16 e mola de retorno','Aço']]},
+ {s:6,name:'Saia de proteção',rows:[
+  ['Saia sanfonada',1,'Perímetro ≈ 4,3 m · altura esticada ≈ 0,9 m','Lona de caminhão reciclada']]},
+ {s:7,name:'Calha de alimentação',rows:[
+  ['Rolete livre',18,'Ø60 × 600 · passo 100 mm','PVC Sch.80 ou aço galvanizado'],
+  ['Estrutura e pés',1,'Longarinas 1800 mm, 2 pares de pés (tubo 50×50)','Aço carbono']]},
+ {s:8,name:'Carga e contenção',rows:[
+  ['Palete PBR',1,'1200 × 1000 × 150','Madeira'],
+  ['Cinta perimetral',2,'Poliéster 50 mm · ≈4,4 m com fecho rápido','Poliéster industrial']]}
+];
+
+/* ================= 3D ================= */
+let ok3d=typeof THREE!=='undefined';
+const G={};          // grupos de montagem
+let R=null;          // objetos 3D dinâmicos
+function init3D(){
+  const cv=$('#cv'), box=$('#viewer');
+  const renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  renderer.setClearColor(0x0b0d0f,1);
+  const scene=new THREE.Scene();
+  const cam=new THREE.PerspectiveCamera(38,16/10,.05,60);
+  scene.add(new THREE.HemisphereLight(0xcfd8de,0x1a1f23,.85));
+  const sun=new THREE.DirectionalLight(0xffffff,.9);
+  sun.position.set(3.5,6,4); sun.castShadow=true;
+  sun.shadow.mapSize.set(2048,2048);
+  Object.assign(sun.shadow.camera,{left:-4,right:4,top:4,bottom:-4,near:1,far:16});
+  scene.add(sun);
+  const fill=new THREE.DirectionalLight(0x9fb4c4,.35); fill.position.set(-4,3,-3); scene.add(fill);
+
+  /* helpers */
+  const clear=g=>{while(g.children.length)g.remove(g.children[g.children.length-1])};
+  function mkG(name,step){const g=new THREE.Group();scene.add(g);G[name]={g,step,mats:[]};return G[name]}
+  function M(grp,color,o){const m=new THREE.MeshStandardMaterial(Object.assign({color,roughness:.55,metalness:.35,emissive:0xF59E0B,emissiveIntensity:0},o||{}));grp.mats.push(m);return m}
+  function bx(parent,w,h,d,mat,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m}
+  function cy(parent,r,h,mat,x,y,z,axis){const g=new THREE.CylinderGeometry(r,r,h,20);if(axis==='z')g.rotateX(Math.PI/2);if(axis==='x')g.rotateZ(Math.PI/2);const m=new THREE.Mesh(g,mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m}
+
+  ['base','springs','scissor','stops','turn','skirt','chute','load'].forEach((n,i)=>mkG(n,i+1));
+  const EXP={base:[0,0,0],stops:[0,.3,0],springs:[0,.65,0],scissor:[0,1.05,0],turn:[0,1.55,0],load:[0,2.2,0],skirt:[1.5,.4,0],chute:[-1,.25,0]};
+
+  /* piso + fosso */
+  const floorG=new THREE.Group(); scene.add(floorG);
+  const floorMat=new THREE.MeshStandardMaterial({color:0x1b2126,roughness:.95,metalness:0,transparent:true});
+  const pitMat=new THREE.MeshStandardMaterial({color:0x2a3238,roughness:.95,metalness:0});
+  const markMat=new THREE.MeshStandardMaterial({color:0xEAB308,roughness:.8,metalness:0});
+  function buildFloor(){
+    clear(floorG);
+    const pit=S.pit,hx=.8,hz=.7,X=7,Z=5,th=.2;
+    const add=(w,h,d,x,y,z,m)=>{const q=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);q.position.set(x,y,z);q.receiveShadow=true;floorG.add(q)};
+    if(pit>0){
+      add(X-hx,th,2*Z,-(X+hx)/2,-th/2,0,floorMat); add(X-hx,th,2*Z,(X+hx)/2,-th/2,0,floorMat);
+      add(2*hx,th,Z-hz,0,-th/2,-(Z+hz)/2,floorMat); add(2*hx,th,Z-hz,0,-th/2,(Z+hz)/2,floorMat);
+      add(2*hx,.1,2*hz,0,-pit-.05,0,pitMat);
+      add(.1,pit,2*hz+.2,-hx-.05,-pit/2,0,pitMat); add(.1,pit,2*hz+.2,hx+.05,-pit/2,0,pitMat);
+      add(2*hx,pit,.1,0,-pit/2,-hz-.05,pitMat); add(2*hx,pit,.1,0,-pit/2,hz+.05,pitMat);
+    } else add(2*X,th,2*Z,0,-th/2,0,floorMat);
+    floorMat.opacity=S.glass&&pit>0?.38:1; floorMat.depthWrite=!(S.glass&&pit>0);
+    /* demarcação 5S */
+    const ln=(w,d,x,z)=>{const q=new THREE.Mesh(new THREE.BoxGeometry(w,.006,d),markMat);q.position.set(x,.003,z);floorG.add(q)};
+    ln(2.3,.05,-.05,-1.1); ln(2.3,.05,-.05,1.45); ln(.05,2.6,-1.2,.175); ln(.05,2.6,1.1,.175);
+  }
+
+  /* BASE (rebuild por fosso) */
+  function buildBase(){
+    const g=G.base; clear(g.g); g.mats.length=0;
+    const m=M(g,0xF59E0B,{metalness:.2,roughness:.5}), m2=M(g,0x3a444c), y0=-S.pit;
+    [-1,1].forEach(s=>{bx(g.g,1.30,.08,.08,m,0,y0+.04,s*.51); bx(g.g,.08,.08,.94,m,s*.61,y0+.04,0)});
+    bx(g.g,.08,.08,.94,m,0,y0+.04,0);
+    [-1,1].forEach(a=>[-1,1].forEach(b=>{bx(g.g,.16,.012,.16,m2,a*.58,y0+.006,b*.47); cy(g.g,.012,.05,m2,a*.58,y0+.035,b*.47)}));
+  }
+
+  /* MOLAS */
+  const springs=[];
+  (function(){
+    const g=G.springs, m=M(g,0x2fd08a,{metalness:.5,roughness:.4}), mr=M(g,0x9aa5ac);
+    const pts=[],turns=9,n=turns*14;
+    for(let i=0;i<=n;i++){const t=i/n;pts.push(new THREE.Vector3(.04*Math.cos(t*turns*2*Math.PI),t,.04*Math.sin(t*turns*2*Math.PI)))}
+    const geo=new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),n*2,.0075,6,false);
+    [-1,1].forEach(a=>[-1,1].forEach(b=>{
+      const h=new THREE.Mesh(geo,m);h.castShadow=true;g.g.add(h);
+      const rd=new THREE.Mesh(new THREE.CylinderGeometry(.011,.011,1,10),mr);rd.castShadow=true;g.g.add(rd);
+      springs.push({h,rd,x:a*.40,z:b*.20});
+    }));
+  })();
+
+  /* PANTÓGRAFO */
+  const arms=[],pinsE=[],pinsC=[],rails=[];
+  (function(){
+    const g=G.scissor, m=M(g,0x8a949b), mp=M(g,0xF59E0B,{metalness:.3}), mr=M(g,0x5d6a73);
+    [-1,1].forEach(side=>{
+      for(let k=0;k<P.N;k++)[1,-1].forEach(sg=>{arms.push({mesh:bx(g.g,P.L,.05,.025,m,0,0,0),side,k,sg})});
+      for(let k=0;k<P.N;k++)pinsC.push({mesh:cy(g.g,.014,.09,mp,0,0,0,'z'),side,k});
+      for(let l=0;l<=P.N;l++)[-1,1].forEach(e=>pinsE.push({mesh:cy(g.g,.014,.09,mp,0,0,0,'z'),side,l,e}));
+      rails.push({mesh:bx(g.g,1.1,P.rail,.06,mr,0,0,side*P.sz),side,top:false});
+      rails.push({mesh:bx(g.g,1.1,P.rail,.06,mr,0,0,side*P.sz),side,top:true});
+    });
+  })();
+
+  /* BATENTES */
+  const posts=[],cables=[];
+  (function(){
+    const g=G.stops, m=M(g,0xff5a47,{metalness:.2}), mc=M(g,0xc9d1d6,{metalness:.8,roughness:.3});
+    [-1,1].forEach(a=>[-1,1].forEach(b=>posts.push({mesh:cy(g.g,.03,stopH,m,a*.55,0,b*.45),a,b})));
+    [-1,1].forEach(a=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(.005,.005,1,6),mc);g.g.add(c);cables.push({mesh:c,a})});
+  })();
+
+  /* MESA GIRATÓRIA */
+  let plate,bearing,pin,pedalG,link,turnRot;
+  (function(){
+    const g=G.turn, mf=M(g,0x6d7a83), mb=M(g,0x2d363d,{metalness:.7,roughness:.35}), mk=M(g,0x9aa5ac), mr=M(g,0xF59E0B,{metalness:.2}), mt=M(g,0xc9d1d6,{metalness:.5});
+    plate=bx(g.g,1.2,.02,1.0,mf,0,0,0);
+    bearing=cy(g.g,.16,.04,mb,0,0,0);
+    pin=cy(g.g,.014,.07,mr,0,0,.37);
+    pedalG=new THREE.Group(); g.g.add(pedalG);
+    bx(pedalG,.12,.02,.30,mr,0,0,.15); bx(pedalG,.18,.025,.10,mt,0,.005,.30);
+    link=cy(g.g,.006,1,mt,0,0,0);
+    turnRot=new THREE.Group(); g.g.add(turnRot);
+    cy(turnRot,.40,.02,mk,0,.01,0);
+    bx(turnRot,1.2,.02,1.0,mt,0,.03,0);
+    for(let i=0;i<24;i++){const a=i/24*Math.PI*2;const t=bx(turnRot,.022,.016,.03,mr,.37*Math.cos(a),-.006,.37*Math.sin(a));t.rotation.y=-a}
+    [[0,.5],[0,-.5]].forEach(p=>bx(turnRot,1.2,.004,.02,mr,p[0],.042,p[1]));
+    [[.6,0],[-.6,0]].forEach(p=>bx(turnRot,.02,.004,1.0,mr,p[0],.042,p[1]));
+  })();
+
+  /* SAIA */
+  let skirtMats;
+  (function(){
+    const g=G.skirt;
+    const c=document.createElement('canvas');c.width=64;c.height=256;const x=c.getContext('2d');
+    for(let i=0;i<16;i++){const y=i*16,gr=x.createLinearGradient(0,y,0,y+16);gr.addColorStop(0,'#6a7449');gr.addColorStop(.5,'#363c26');gr.addColorStop(1,'#6a7449');x.fillStyle=gr;x.fillRect(0,y,64,16)}
+    const tex=new THREE.CanvasTexture(c);tex.wrapS=tex.wrapT=THREE.RepeatWrapping;tex.repeat.set(4,1);
+    const m=M(g,0xffffff,{map:tex,roughness:.9,metalness:0,transparent:true,opacity:1});
+    skirtMats=m;
+    bx(g.g,1.26,1,.006,m,0,.5,.53); bx(g.g,1.26,1,.006,m,0,.5,-.53);
+    bx(g.g,.006,1,1.06,m,.63,.5,0); bx(g.g,.006,1,1.06,m,-.63,.5,0);
+  })();
+
+  /* CALHA */
+  let chuteSlope,bagCh;
+  const slope=4*Math.PI/180, chX=-.64, chY=.87;
+  (function(){
+    const g=G.chute, mr=M(g,0xdfe5e8,{metalness:.2,roughness:.5}), mf=M(g,0x5d6a73), mb=M(g,0x4a5560), mh=M(g,0x2d363d);
+    chuteSlope=new THREE.Group(); chuteSlope.position.set(chX,chY,0); chuteSlope.rotation.z=-slope; g.g.add(chuteSlope);
+    for(let i=0;i<18;i++)cy(chuteSlope,.03,.60,mr,-.05-i*.1,0,0,'z');
+    [-1,1].forEach(s=>bx(chuteSlope,1.8,.06,.03,mf,-.9,-.01,s*.32));
+    [.30,1.6].forEach(d=>[-1,1].forEach(s=>{const x=chX-d*Math.cos(slope),yTop=chY+d*Math.sin(slope)-.04;bx(g.g,.05,yTop,.05,mb,x,yTop/2,s*.30)}));
+    [.30,1.6].forEach(d=>{const x=chX-d*Math.cos(slope);bx(g.g,.04,.04,.6,mb,x,.35,0)});
+    bx(chuteSlope,.45,.7,.7,mh,-2.05,.35,0);
+    bagCh=new THREE.Mesh(new THREE.BoxGeometry(.58,.135,.48),new THREE.MeshStandardMaterial({color:0x5d6c77,roughness:.8,metalness:0}));
+    bagCh.castShadow=true;chuteSlope.add(bagCh);
+  })();
+
+  /* CARGA */
+  const bags=[],bands=[];
+  let loadG;
+  (function(){
+    const g=G.load; loadG=g.g;
+    const mw=M(g,0x8a6c3e,{metalness:0,roughness:.9}), mA=M(g,0x4b5a66,{metalness:0,roughness:.85}), mB=M(g,0x5d6c77,{metalness:0,roughness:.85}), ms=M(g,0xff5a47,{metalness:0,roughness:.6}), mx=M(g,0xEAB308,{metalness:.2});
+    for(let i=0;i<6;i++)bx(g.g,.15,.022,1.0,mw,-.5+i*.2,.139,0);
+    [-.455,0,.455].forEach(z=>bx(g.g,1.2,.106,.09,mw,0,.075,z));
+    [-.55,0,.55].forEach(x=>bx(g.g,.12,.022,1.0,mw,x,.011,0));
+    const edge=new THREE.LineBasicMaterial({color:0x1a2025});
+    for(let i=0;i<6;i++){
+      const row=[];
+      [[-.3,-.25],[.3,-.25],[-.3,.25],[.3,.25]].forEach(p=>{
+        const b=bx(g.g,.58,.135,.48,i%2?mB:mA,p[0],0,p[1]);
+        b.add(new THREE.LineSegments(new THREE.EdgesGeometry(b.geometry),edge));
+        row.push(b);
+      });
+      bags.push(row);
+    }
+    for(let b=0;b<2;b++){
+      const set=[];
+      set.push(bx(g.g,1.212,.04,.006,ms,0,0,.503),bx(g.g,1.212,.04,.006,ms,0,0,-.503),bx(g.g,.006,.04,1.0,ms,.603,0,0),bx(g.g,.006,.04,1.0,ms,-.603,0,0),bx(g.g,.06,.05,.012,mx,0,0,.508));
+      bands.push(set);
+    }
+  })();
+
+  /* OPERADOR + tapete */
+  const opG=new THREE.Group(); scene.add(opG);
+  (function(){
+    const mv=new THREE.MeshStandardMaterial({color:0xEAB308,roughness:.8}), mp=new THREE.MeshStandardMaterial({color:0x2a3a52,roughness:.9}), ms=new THREE.MeshStandardMaterial({color:0xd9b38c,roughness:.8}), mh=new THREE.MeshStandardMaterial({color:0xF59E0B,roughness:.6}), mm=new THREE.MeshStandardMaterial({color:0x14181b,roughness:1});
+    bx(opG,.9,.012,.6,mm,0,.006,0);
+    bx(opG,.16,.85,.16,mp,-.1,.43,0); bx(opG,.16,.85,.16,mp,.1,.43,0);
+    bx(opG,.40,.55,.22,mv,0,1.12,0);
+    const hd=new THREE.Mesh(new THREE.SphereGeometry(.11,16,12),ms);hd.position.set(0,1.54,0);hd.castShadow=true;opG.add(hd);
+    const hat=new THREE.Mesh(new THREE.SphereGeometry(.12,16,10,0,Math.PI*2,0,Math.PI/2),mh);hat.position.set(0,1.57,0);opG.add(hat);
+    [-1,1].forEach(s=>{const a=bx(opG,.09,.09,.55,ms,s*.26,1.0,-.28)});
+    opG.position.set(-.6,0,.95);
+  })();
+
+  buildFloor(); buildBase();
+
+  /* ------- layout dinâmico ------- */
+  const tmp=new THREE.Vector3(),Y=new THREE.Vector3(0,1,0);
+  let chT=0,chPause=0,last=performance.now();
+  function layout(dt){
+    const so=solve(S.nA,S.pit), th=so.th, s=so.s, bt=so.baseTop, ts=so.topS;
+    const hx=P.L*Math.cos(th)/2;
+    arms.forEach(a=>{const y0=bt+P.rail+a.k*s;a.mesh.position.set(0,y0+s/2,a.side*P.sz+a.sg*.02);a.mesh.rotation.z=a.sg*th});
+    pinsC.forEach(p=>p.mesh.position.set(0,bt+P.rail+p.k*s+s/2,p.side*P.sz));
+    pinsE.forEach(p=>p.mesh.position.set(p.e*hx,bt+P.rail+p.l*s,p.side*P.sz+(p.l%2?-.02:.02)));
+    rails.forEach(r=>r.mesh.position.y=r.top?ts-P.rail/2:bt+P.rail/2);
+    const len=ts-bt;
+    springs.forEach(sp=>{sp.h.position.set(sp.x,bt,sp.z);sp.h.scale.y=len;sp.rd.position.set(sp.x,bt+len/2,sp.z);sp.rd.scale.set(1,len,1)});
+    posts.forEach(p=>p.mesh.position.y=bt+stopH/2);
+    cables.forEach(c=>{c.mesh.position.set(c.a*.58,bt+len/2,0);c.mesh.scale.y=len});
+    plate.position.y=ts+.01; bearing.position.y=ts+.04;
+    const pr=S.pedal?.12:-.28;
+    pedalG.position.set(.25,bt+.05,.55); pedalG.rotation.x=pr;
+    pin.position.y=ts+.04-(S.pedal?.025:0);
+    /* cabo pedal -> pino */
+    const pa=new THREE.Vector3(.25,bt+.05,.85),pb=new THREE.Vector3(0,ts+.02,.37);
+    tmp.copy(pb).sub(pa);const L=tmp.length();link.position.copy(pa).addScaledVector(tmp,.5);link.scale.y=L;link.quaternion.setFromUnitVectors(Y,tmp.normalize());
+    turnRot.position.y=ts+.06; turnRot.rotation.y=S.rot;
+    loadG.position.y=so.table; loadG.rotation.y=S.rot;
+    G.skirt.g.position.y=bt; G.skirt.g.scale.y=Math.max(.001,len);
+    skirtMats.opacity=S.hl&&G.skirt.step===STEPS.findIndex(x=>x.g==='skirt')+1?1:1;
+    for(let i=0;i<6;i++)bags[i].forEach(b=>{b.visible=i<S.n;b.position.y=P.palletH+i*P.layerH+P.layerH/2});
+    const showStrap=S.strap&&S.n>=1&&S.step>=8;
+    bands.forEach((set,bi)=>{const vis=showStrap&&(bi===0||S.n>=2);const yy=bi===0?P.palletH+.05:P.palletH+S.n*P.layerH-.05;set.forEach(m=>{m.visible=vis;m.position.y=yy})});
+    /* visibilidade por etapa */
+    Object.keys(G).forEach(k=>{const e=G[k];e.g.visible=S.step>=e.step&&!(k==='skirt'&&!S.skirt);const v=EXP[k];e.g.position.set(v[0]*S.eA,v[1]*S.eA,v[2]*S.eA)});
+    opG.visible=S.op;
+    /* saco na calha */
+    const showBag=S.bag&&G.chute.g.visible;
+    bagCh.visible=showBag;
+    if(showBag){
+      if(chPause>0){chPause-=dt}else{chT+=dt*.45;if(chT>1.55){chT=0;chPause=.7}}
+      const d=1.85-chT;bagCh.position.set(-d,.03+.0675,0);
+    }
+    /* destaque da etapa */
+    const t=performance.now()/1000;
+    Object.keys(G).forEach(k=>{const on=S.hl&&G[k].step===S.step;const it=on?.22+.2*Math.sin(t*4):0;G[k].mats.forEach(m=>m.emissiveIntensity=it)});
+  }
+
+  /* ------- câmera ------- */
+  const C={az:.9,el:.42,r:6.2,tgt:new THREE.Vector3(-.5,.55,0),az2:.9,el2:.42,r2:6.2,tgt2:new THREE.Vector3(-.5,.55,0)};
+  const VIEWS={iso:[.9,.42,6.2,-.5,.55],ready:[.9,.42,6.2,-.5,.55],front:[0,.03,7.4,-.6,.5],side:[Math.PI/2,.03,5.2,0,.5],top:[0,1.5,7.4,-.6,0]};
+  function setView(k){const v=VIEWS[k];C.az2=v[0];C.el2=v[1];C.r2=v[2];C.tgt2.set(v[3],v[4],0)}
+  function camUpdate(){
+    const k=.14;C.az+=(C.az2-C.az)*k;C.el+=(C.el2-C.el)*k;C.r+=(C.r2-C.r)*k;C.tgt.lerp(C.tgt2,k);
+    cam.position.set(C.tgt.x+C.r*Math.cos(C.el)*Math.sin(C.az),C.tgt.y+C.r*Math.sin(C.el),C.tgt.z+C.r*Math.cos(C.el)*Math.cos(C.az));
+    cam.lookAt(C.tgt);
+  }
+  const ptrs=new Map();let pinch=0;
+  cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});pinch=0});
+  cv.addEventListener('pointermove',e=>{
+    if(!ptrs.has(e.pointerId))return;
+    const p=ptrs.get(e.pointerId),dx=e.clientX-p.x,dy=e.clientY-p.y;
+    if(ptrs.size===1){C.az2-=dx*.007;C.az-=dx*.007;C.el2=Math.max(.02,Math.min(1.52,C.el2+dy*.006));C.el=C.el2}
+    p.x=e.clientX;p.y=e.clientY;
+    if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);if(pinch){C.r2=Math.max(2,Math.min(14,C.r2*pinch/d));C.r=C.r2}pinch=d}
+  });
+  const up=e=>{ptrs.delete(e.pointerId);pinch=0};
+  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  cv.addEventListener('wheel',e=>{e.preventDefault();C.r2=Math.max(2,Math.min(14,C.r2*(1+Math.sign(e.deltaY)*.08)));},{passive:false});
+
+  /* ------- loop ------- */
+  function resize(){const w=box.clientWidth,h=box.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+  new ResizeObserver(resize).observe(box);resize();
+  let visible=true;new IntersectionObserver(es=>{visible=es[0].isIntersecting}).observe(box);
+  function frame(){
+    requestAnimationFrame(frame);
+    if(!visible)return;
+    const now=performance.now(),dt=Math.min(.05,(now-last)/1000);last=now;
+    S.nA+=(S.n-S.nA)*Math.min(1,dt*7);if(Math.abs(S.n-S.nA)<.002)S.nA=S.n;
+    S.eA+=(S.explode-S.eA)*Math.min(1,dt*6);
+    S.rot+=(S.rotT-S.rot)*Math.min(1,dt*5);
+    layout(dt);camUpdate();renderer.render(scene,cam);
+  }
+  R={setView,buildFloor,buildBase,floorMat,renderer};
+  frame();
+}
+
+/* ================= UI ================= */
+function stepName(){return S.step===0?'Local preparado':S.step+'/8 · '+STEPS[S.step-1].t}
+function readout(){
+  const so=solve(S.n,S.pit), top=(so.table+P.palletH+S.n*P.layerH)*100, inZone=top>=79.5&&top<=95.5;
+  $('#vLayers').textContent=S.n+(S.n===1?' camada':' camadas');
+  $('#tHeight').textContent=Math.round(top)+' cm';
+  const z=$('#tZone');z.textContent=inZone?'DENTRO':'FORA';z.className=inZone?'ok':'bad';
+  $('#tLoad').textContent=(S.n*100)+' kg';
+  $('#tTable').textContent=Math.round(so.table*1000)+' mm';
+  $('#tAngle').textContent=(so.th*180/Math.PI).toFixed(1)+'°';
+  const mx=$('#tMax');mx.textContent=so.maxLayers+(so.maxLayers>=6?' (completo)':'');mx.className=so.maxLayers>=6?'ok':'warnc';
+  const al=$('#alert');
+  if(so.bottomed){al.hidden=false;al.innerHTML='<b>Batente atingido.</b> Com fosso de '+Math.round(S.pit*1000)+' mm a estação suporta '+so.maxLayers+' camada'+(so.maxLayers===1?'':'s')+'. Acima disso a pilha passa a subir e o topo sai da zona ergonômica. Aumente o fosso ou use palete parcial.'}
+  else if(S.pit===0&&S.n>0){al.hidden=false;al.innerHTML='Sem fosso, o curso útil é de ~'+Math.round(so.free*1000)+' mm: até '+so.maxLayers+' camadas dentro da zona ergonômica.'}
+  else al.hidden=true;
+  $('#vStep').textContent=S.step+' / 8';
+  $('#vstep').textContent=S.hl||S.step<8?stepName():'Pronto · 8 etapas montadas';
+  $('#rStep').value=S.step;
+  $$('#steps .card').forEach((c,i)=>c.classList.toggle('on',S.hl&&i+1===S.step));
+}
+function setStep(n,hl){S.step=Math.max(0,Math.min(8,n));S.hl=!!hl;stopPlay();$('#bReady').classList.toggle('on',S.step===8&&!S.hl);readout()}
+function stopPlay(){if(S.playing){clearInterval(S.playing);S.playing=null;$('#bPlay').textContent='▶ Animar montagem';$('#bPlay').classList.add('on')}}
+
+function wire(){
+  $('#rLayers').oninput=e=>{S.n=+e.target.value;readout()};
+  $$('#segPit .btn').forEach(b=>b.onclick=()=>{
+    $$('#segPit .btn').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+    S.pit=+b.dataset.pit/1000;if(ok3d){R.buildFloor();R.buildBase()}readout()});
+  $('#rExp').oninput=e=>{
+    S.explode=+e.target.value/100;
+    if(ok3d){const v=S.explode;R.setView(v>.05?'iso':'iso');const c=null}
+  };
+  $('#rStep').oninput=e=>setStep(+e.target.value,true);
+  $('#bPrev').onclick=()=>setStep(S.step-1,true);
+  $('#bNext').onclick=()=>setStep(S.step+1,true);
+  $('#bPlay').onclick=()=>{
+    if(S.playing){stopPlay();return}
+    S.step=0;S.hl=true;S.explode=0;$('#rExp').value=0;readout();
+    $('#bPlay').textContent='■ Parar';
+    S.playing=setInterval(()=>{if(S.step>=8){S.hl=false;stopPlay();readout();$('#bReady').classList.add('on');return}S.step++;S.hl=true;readout()},1500);
+  };
+  $('#bPedal').onclick=e=>{S.pedal=!S.pedal;e.currentTarget.classList.toggle('on',S.pedal);e.currentTarget.setAttribute('aria-pressed',S.pedal);e.currentTarget.textContent=S.pedal?'Soltar pedal':'Pisar pedal'};
+  $('#bSpin').onclick=()=>{
+    if(!S.pedal){const a=$('#alert');a.hidden=false;a.textContent='Trava ativa: pise no pedal para liberar o giro.';setTimeout(readout,2200);return}
+    S.rotT+=Math.PI;
+  };
+  $$('#tg .btn').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.tg;S[k]=!S[k];b.classList.toggle('on',S[k]);
+    if(k==='glass'&&ok3d){R.buildFloor()}
+  });
+  $$('#vtools .btn').forEach(b=>b.onclick=()=>{
+    $$('#vtools .btn').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+    const v=b.dataset.view;
+    if(v==='ready'){S.explode=0;$('#rExp').value=0;S.n=3;$('#rLayers').value=3;setStep(8,false);b.classList.add('on')}
+    if(ok3d)R.setView(v);
+  });
+}
+
+/* etapas (cartões) */
+function buildSteps(){
+  $('#steps').innerHTML=STEPS.map((s,i)=>`<button class="card" data-i="${i+1}" type="button"><div class="n">${i+1}</div><h3>${s.t}</h3><p>${s.d}</p><div class="chk"><b>CONFERIR</b>${s.c}</div><div class="tl">Ferramentas: ${s.tl}</div></button>`).join('');
+  $$('#steps .card').forEach(c=>c.onclick=()=>{
+    setStep(+c.dataset.i,true);
+    if(ok3d){R.setView('iso')}
+    $('#vtools .btn.on')&&$$('#vtools .btn').forEach(x=>x.classList.remove('on'));
+    $('#modelo3d').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+}
+function buildBom(){
+  const tb=$('#bom tbody');let h='';
+  BOM.forEach(g=>{h+=`<tr class="grp"><td colspan="4">${g.s} · ${g.name}</td></tr>`;g.rows.forEach(r=>{h+=`<tr><td>${r[0]}</td><td class="qt">${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`})});
+  tb.innerHTML=h;
+}
+
+/* ================= 2D ================= */
+const f=n=>Math.round(n*10)/10;
+const LN=(x1,y1,x2,y2,c)=>`<line class="${c||'ln'}" x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}"/>`;
+const RC=(x,y,w,h,c)=>`<rect class="${c||'fl'}" x="${f(x)}" y="${f(y)}" width="${f(Math.abs(w))}" height="${f(Math.abs(h))}"/>`;
+const TX=(x,y,s,c,a)=>`<text class="${c||'tx'}" x="${f(x)}" y="${f(y)}" text-anchor="${a||'middle'}">${s}</text>`;
+const PL=(pts,c)=>`<polyline class="${c||'ln'}" points="${pts.map(p=>f(p[0])+','+f(p[1])).join(' ')}"/>`;
+const AR=(x,y,dx,dy)=>{const a=5,b=2.2,px=-dy,py=dx;return `<polygon class="af" points="${f(x)},${f(y)} ${f(x-dx*a+px*b)},${f(y-dy*a+py*b)} ${f(x-dx*a-px*b)},${f(y-dy*a-py*b)}"/>`};
+function dimH(x1,x2,y,label,ey1,ey2){ // px
+  let s=LN(x1,y,x2,y,'dm')+AR(x1,y,1,0)+AR(x2,y,-1,0)+TX((x1+x2)/2,y-5,label,'dt');
+  if(ey1!=null)s+=LN(x1,ey1,x1,y+(y>ey1?4:-4),'dm');
+  if(ey2!=null)s+=LN(x2,ey2,x2,y+(y>ey2?4:-4),'dm');
+  return s;
+}
+function dimV(y1,y2,x,label,ex1,ex2,side){ // px, y1<y2
+  let s=LN(x,y1,x,y2,'dm')+AR(x,y1,0,1)+AR(x,y2,0,-1);
+  const tx=side==='r'?x+6:x-6, an=side==='r'?'start':'end';
+  s+=TX(tx,(y1+y2)/2+4,label,'dt',an);
+  if(ex1!=null)s+=LN(ex1,y1,x+(ex1>x?4:-4),y1,'dm');
+  if(ex2!=null)s+=LN(ex2,y2,x+(ex2>x?4:-4),y2,'dm');
+  return s;
+}
+const svgWrap=(w,h,body)=>`<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" role="img">${body}</svg>`;
+
+/* estação em elevação (m -> px) */
+function station(cx,n,pit,sc,oy){
+  const so=solve(n,pit), X=x=>cx+x*1000*sc, Yp=y=>oy-y*1000*sc, th=so.th, s=so.s, bt=so.baseTop, ts=so.topS;
+  let o='';
+  o+=RC(X(-.9),Yp(0),1.8*1000*sc,.12*1000*sc,'conc');
+  if(pit>0){
+    o+=RC(X(-.8),Yp(0),1.6*1000*sc,(.12)*1000*sc,'conc');
+    o+=`<rect x="${f(X(-.8))}" y="${f(Yp(0))}" width="${f(1.6*1000*sc)}" height="${f(pit*1000*sc)}" fill="#0b0d0f"/>`;
+    o+=LN(X(-.9),Yp(0),X(-.8),Yp(0),'floorl')+LN(X(.8),Yp(0),X(.9),Yp(0),'floorl');
+    o+=LN(X(-.8),Yp(0),X(-.8),Yp(-pit),'floorl')+LN(X(.8),Yp(0),X(.8),Yp(-pit),'floorl')+LN(X(-.8),Yp(-pit),X(.8),Yp(-pit),'floorl');
+  } else o+=LN(X(-.9),Yp(0),X(.9),Yp(0),'floorl');
+  o+=RC(X(-.65),Yp(bt),1.3*1000*sc,P.baseH*1000*sc,'am');
+  [-1,1].forEach(a=>{o+=RC(X(a*.55-.03),Yp(bt+stopH),.06*1000*sc,stopH*1000*sc,'fl');
+    // mola
+    const pts=[[X(a*.40),Yp(bt)]],c=9;for(let i=0;i<c;i++){const y=bt+(ts-bt)*(i+.5)/c;pts.push([X(a*.40+(i%2?.04:-.04)),Yp(y)])}pts.push([X(a*.40),Yp(ts)]);o+=PL(pts,'gr');
+    // saia
+    const sp=[[X(a*.63),Yp(bt)]],c2=8;for(let i=0;i<c2;i++){const y=bt+(ts-bt)*(i+.5)/c2;sp.push([X(a*.63+(i%2?.03:-.0)),Yp(y)])}sp.push([X(a*.63),Yp(ts)]);o+=PL(sp,'sk');
+  });
+  o+=RC(X(-.55),Yp(bt+P.rail),1.1*1000*sc,P.rail*1000*sc,'fl');
+  const hx=P.L*Math.cos(th)/2;
+  for(let k=0;k<P.N;k++){const y0=bt+P.rail+k*s;o+=LN(X(-hx),Yp(y0),X(hx),Yp(y0+s))+LN(X(-hx),Yp(y0+s),X(hx),Yp(y0))}
+  o+=RC(X(-.55),Yp(ts),1.1*1000*sc,P.rail*1000*sc,'fl');
+  o+=RC(X(-.6),Yp(ts+.02),1.2*1000*sc,.02*1000*sc,'fl');
+  o+=RC(X(-.16),Yp(ts+.06),.32*1000*sc,.04*1000*sc,'am');
+  o+=RC(X(-.4),Yp(ts+.08),.8*1000*sc,.02*1000*sc,'fl');
+  o+=RC(X(-.6),Yp(ts+.10),1.2*1000*sc,.02*1000*sc,'am');
+  const t=so.table;
+  o+=RC(X(-.6),Yp(t+.15),1.2*1000*sc,.022*1000*sc,'wd');
+  [-.5,0,.5].forEach(x=>o+=RC(X(x-.05),Yp(t+.128),.1*1000*sc,.106*1000*sc,'wd'));
+  [-.55,0,.55].forEach(x=>o+=RC(X(x-.06),Yp(t+.022),.12*1000*sc,.022*1000*sc,'wd'));
+  for(let i=0;i<n;i++){const y=t+P.palletH+i*P.layerH;o+=RC(X(-.6),Yp(y+P.layerH),1.2*1000*sc,P.layerH*1000*sc,'bag')+LN(X(0),Yp(y),X(0),Yp(y+P.layerH),'hid')}
+  return {o,so,X,Yp};
+}
+
+function d1(){
+  const sc=.27,oy=370,cxA=300,cxB=800,pit=.5;
+  const A=station(cxA,0,pit,sc,oy),B=station(cxB,6,pit,sc,oy);
+  let o=TX(20,24,'Prancha 1 · Elevação (vista frontal)','ttl','start');
+  o+=A.o+B.o;
+  const topA=(A.so.table+P.palletH)*1000, topB=(B.so.table+P.palletH+6*P.layerH)*1000;
+  // zona ergonômica
+  [[cxA],[cxB]].forEach(([cx])=>{o+=`<rect class="zone" x="${f(cx-250)}" y="${f(oy-950*sc)}" width="500" height="${f(150*sc)}"/>`});
+  o+=TX(cxA-246,oy-950*sc-4,'zona 800–950','tm','start');
+  o+=TX(cxA,64,'VAZIO','ttl')+TX(cxB,64,'6 CAMADAS · 600 kg','ttl');
+  // cotas A
+  o+=dimV(A.Yp(.9),A.Yp(0),cxA-236,'900',cxA-170,cxA-236,'l').replace('text-anchor="end"','text-anchor="end"');
+  o+=dimV(A.Yp(.75),A.Yp(0),cxA+236,'750 mesa',cxA+168,cxA+236,'r');
+  o+=dimV(A.Yp(0),A.Yp(-pit),cxA-236+0,'500 fosso',cxA-216,cxA-236,'l');
+  // cotas B
+  o+=dimV(B.Yp(.9),B.Yp(0),cxB-236,'900',cxB-170,cxB-236,'l');
+  o+=dimV(B.Yp(B.so.table),B.Yp(0),cxB+236,'mesa −'+Math.round(-B.so.table*1000)+' mm',cxB+168,cxB+236,'r');
+  o+=dimH(cxA-175,cxA+175,oy+(pit*1000*sc)+36,'base 1300',oy+(pit*1000*sc)-10,oy+(pit*1000*sc)-10);
+  o+=dimH(cxB-162,cxB+162,oy+(pit*1000*sc)+36,'deck/palete 1200',oy+(pit*1000*sc)-10,oy+(pit*1000*sc)-10);
+  // linha de topo
+  o+=LN(cxA-250,A.Yp(.9),cxA+250,A.Yp(.9),'ghost')+LN(cxB-250,B.Yp(.9),cxB+250,B.Yp(.9),'ghost');
+  const thA=(A.so.th*180/Math.PI).toFixed(1),thB=(B.so.th*180/Math.PI).toFixed(1);
+  o+=TX(cxA,oy+pit*1000*sc+66,`pantógrafo aberto θ = ${thA}° · topo ${Math.round(topA)} mm`,'tm');
+  o+=TX(cxB,oy+pit*1000*sc+66,`pantógrafo comprimido θ = ${thB}° · topo ${Math.round(topB)} mm`,'tm');
+  o+=TX(550,oy+pit*1000*sc+100,`Curso total da mesa: ${Math.round((A.so.table-B.so.table)*1000)} mm (6 × 140 mm)`,'dt');
+  // legenda
+  o+=`<g>${RC(20,500,12,8,'am')}${TX(38,508,'quadro/base','tm','start')}${LN(110,504,128,504,'gr')}${TX(134,508,'molas','tm','start')}${LN(180,504,198,504,'sk')}${TX(204,508,'saia','tm','start')}${RC(250,500,12,8,'wd')}${TX(268,508,'palete','tm','start')}${RC(318,500,12,8,'bag')}${TX(336,508,'sacos','tm','start')}</g>`;
+  return svgWrap(1100,590,o);
+}
+
+function d2(){
+  const sc=.215,ox=700,oy=300; // x mm -> ox+x*sc ; z mm -> oy+z*sc
+  const X=x=>ox+x*sc,Z=z=>oy+z*sc;
+  let o=TX(20,24,'Prancha 2 · Planta','ttl','start');
+  // demarcação 5S
+  o+=`<rect class="ghost" x="${f(X(-1200))}" y="${f(Z(-1100))}" width="${f(2300*sc)}" height="${f(2550*sc)}"/>`+TX(X(-1200)+4,Z(-1100)-5,'demarcação 5S','tm','start');
+  // calha
+  const cL=-640-1800;
+  o+=RC(X(cL),Z(-320),1800*sc,640*sc,'fl');
+  for(let i=0;i<18;i++)o+=LN(X(-640-50-i*100),Z(-300),X(-640-50-i*100),Z(300));
+  o+=RC(X(cL-450),Z(-350),450*sc,700*sc,'fl')+TX(X(cL-225),Z(4),'ENSACADEIRA','tm');
+  o+=TX(X(cL+900),Z(-340)-6,'calha 1800 × 640 · 18 rolos Ø60','tm');
+  // base
+  o+=RC(X(-650),Z(-550),1300*sc,1100*sc,'am');
+  o+=RC(X(-600),Z(-500),1200*sc,1000*sc,'ln');
+  // pantógrafo lados
+  [-380,380].forEach(z=>{o+=LN(X(-550),Z(z),X(550),Z(z),'hid')});
+  // molas
+  [-400,400].forEach(x=>[-200,200].forEach(z=>{o+=`<circle class="gr" cx="${f(X(x))}" cy="${f(Z(z))}" r="${f(40*sc)}"/><circle class="gr" cx="${f(X(x))}" cy="${f(Z(z))}" r="${f(20*sc)}"/>`}));
+  // anel e pino
+  o+=`<circle class="hid" cx="${f(X(0))}" cy="${f(Z(0))}" r="${f(400*sc)}"/><circle class="hid" cx="${f(X(0))}" cy="${f(Z(0))}" r="${f(160*sc)}"/>`;
+  o+=`<circle class="am" cx="${f(X(0))}" cy="${f(Z(370))}" r="${f(14*sc*2)}"/>`;
+  // palete e sacos
+  o+=RC(X(-600),Z(-500),1200*sc,1000*sc,'ghost');
+  [[-600,-500],[0,-500],[-600,0],[0,0]].forEach(p=>o+=RC(X(p[0]+10),Z(p[1]+10),580*sc,480*sc,'bag'));
+  // swing
+  o+=`<circle class="ctr" cx="${f(X(0))}" cy="${f(Z(0))}" r="${f(781*sc)}"/>`;
+  o+=TX(X(0),Z(-781)-6,'giro Ø1562 (diagonal do palete)','tm');
+  // pedal
+  o+=RC(X(100),Z(550),300*sc,260*sc,'am')+TX(X(250),Z(550)+(260*sc)+12,'pedal','tm');
+  // operador e tapete
+  o+=RC(X(-1050),Z(650),900*sc,600*sc,'fl')+TX(X(-600),Z(950)+4,'tapete','tm');
+  o+=`<circle class="am" cx="${f(X(-600))}" cy="${f(Z(950))}" r="14"/>`+TX(X(-600),Z(1280),'operador','tm');
+  // cotas
+  o+=dimH(X(-650),X(650),Z(-550)-34,'1300',Z(-550),Z(-550));
+  o+=dimV(Z(-550),Z(550),X(650)+34,'1100',X(650),X(650),'r');
+  o+=dimH(X(cL),X(-640),Z(330)+34,'1800',Z(320),Z(320));
+  o+=dimH(X(-600),X(600),Z(520)+30+0,'deck 1200',null,null);
+  o+=TX(X(660),Z(300),'espaçamento molas 800 × 400','tm','start');
+  return svgWrap(1000,600,o);
+}
+
+function d3(){
+  const sc=1.25,ox=90,oy=360;
+  const X=x=>ox+x*sc,Yy=y=>oy-y*sc;
+  let o=TX(20,24,'Prancha 3 · Corte A–A · mesa giratória (meia seção, escala ampliada)','ttl','start');
+  o+=`<defs><pattern id="hs" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#93a0a8" stroke-width="1.2"/></pattern></defs>`;
+  const hatch=(x,y,w,h)=>`<rect x="${f(X(x))}" y="${f(Yy(y+h))}" width="${f(w*sc)}" height="${f(h*sc)}" fill="url(#hs)" stroke="var(--ink)" stroke-width="1.3"/>`;
+  o+=LN(X(0),Yy(-40),X(0),Yy(330),'ctr')+TX(X(0),Yy(340),'eixo de giro','tm');
+  o+=hatch(0,0,600,20);                       // quadro superior
+  o+=hatch(0,20,160,40);                      // rolamento
+  o+=hatch(0,60,400,20);                      // anel
+  o+=hatch(0,80,600,20);                      // deck
+  // dentes do anel
+  for(let i=0;i<7;i++){const x=340+i*9;o+=`<polygon class="am" points="${f(X(x))},${f(Yy(60))} ${f(X(x+4.5))},${f(Yy(52))} ${f(X(x+9))},${f(Yy(60))}"/>`}
+  // pino de trava
+  o+=RC(X(363),Yy(60),14*sc*1.4,40*sc,'am');
+  o+=LN(X(370),Yy(20),X(370),Yy(-45),'gr');
+  // palete (parcial)
+  o+=RC(X(0),Yy(122),600*sc,22*sc,'wd');
+  o+=RC(X(0),Yy(100),600*sc,22*sc,'wd').replace('class="wd"','class="wd" opacity=".5"');
+  o+=RC(X(0),Yy(250),600*sc,0,'ln');
+  // linha de ruptura
+  o+=PL([[X(600),Yy(0)],[X(608),Yy(40)],[X(594),Yy(80)],[X(608),Yy(120)],[X(600),Yy(150)]],'ln');
+  // pedal e haste
+  o+=LN(X(370),Yy(-45),X(500),Yy(-45),'gr')+TX(X(505),Yy(-41),'cabo ao pedal','tm','start');
+  // balões
+  const lab=(x,y,tx,ty,t,n)=>LN(x,y,tx,ty,'dm')+`<circle class="bal" cx="${f(tx)}" cy="${f(ty)}" r="11"/>`+TX(tx,ty+4,String(n),'balt')+TX(tx+(tx>x?16:-16),ty+4,t,'tx',tx>x?'start':'end');
+  o+=lab(X(500),Yy(10),X(680),Yy(10),'quadro superior · chapa 6',1)+lab(X(140),Yy(40),X(680),Yy(-20),'rolamento axial ≥1.500 kg',2)+lab(X(300),Yy(70),X(680),Yy(55),'anel giratório Ø800',3)+lab(X(500),Yy(90),X(680),Yy(100),'deck chapa xadrez',4)+lab(X(370),Yy(40),X(680),Yy(150),'pino da trava Ø16 + mola',5)+lab(X(360),Yy(56),X(680),Yy(200),'dentes da trava (anel)',6)+lab(X(450),Yy(133),X(680),Yy(250),'palete PBR 150',7);
+  // cotas
+  o+=dimV(Yy(100),Yy(0),X(0)-30,'100',X(0),X(0)-6,'l');
+  o+=dimH(X(0),X(160),Yy(-80),'R160 rolamento',Yy(20),Yy(20));
+  o+=dimH(X(0),X(400),Yy(-100),'R400 anel',Yy(60),Yy(60));
+  o+=dimH(X(0),X(600),Yy(-120),'R600 deck',Yy(0),Yy(0));
+  o+=TX(X(0)+4,Yy(-150),'Pedal solto: pino sobe e trava o anel · Pedal pressionado: pino desce e libera o giro','tm','start');
+  return svgWrap(1000,600,o);
+}
+
+function d4(){
+  let o=TX(20,24,'Prancha 4 · Explodido (número = etapa de montagem)','ttl','start');
+  const cx=420,w=300;
+  const items=[
+   {n:1,y:520,t:'Base e ancoragem',draw:y=>RC(cx-w/2,y,w,26,'am')+RC(cx-w/2-8,y+26,36,6,'fl')+RC(cx+w/2-28,y+26,36,6,'fl')},
+   {n:4,y:445,t:'Batentes de curso',draw:y=>[-1,1].map(a=>RC(cx+a*118-6,y,12,44,'fl')).join('')+LN(cx-w/2,y+10,cx+w/2,y+10,'hid')},
+   {n:2,y:360,t:'Molas e hastes-guia',draw:y=>[-1,1].map(a=>{const p=[[cx+a*80,y]];for(let i=0;i<9;i++)p.push([cx+a*80+(i%2?14:-14),y+4+i*8.5]);p.push([cx+a*80,y+80]);return PL(p,'gr')}).join('')},
+   {n:3,y:255,t:'Pantógrafo (4 estágios)',draw:y=>{let s='';for(let k=0;k<4;k++){const y0=y+k*24;s+=LN(cx-w/2+20,y0,cx+w/2-20,y0+24)+LN(cx-w/2+20,y0+24,cx+w/2-20,y0)}return s+RC(cx-w/2+10,y-6,w-20,6,'fl')+RC(cx-w/2+10,y+96,w-20,6,'fl')}},
+   {n:5,y:170,t:'Mesa giratória e pedal',draw:y=>RC(cx-w/2,y,w,8,'fl')+RC(cx-40,y-14,80,14,'am')+RC(cx-100,y-24,200,10,'fl')+RC(cx-w/2,y-34,w,10,'am')},
+   {n:8,y:70,t:'Palete, sacos e cinta',draw:y=>RC(cx-w/2,y+34,w,10,'wd')+RC(cx-w/2,y+8,w,26,'bag')+RC(cx-w/2,y-18,w,26,'bag')+LN(cx-w/2-4,y+8,cx+w/2+4,y+8,'dm')}
+  ];
+  items.forEach(it=>{
+    o+=it.draw(it.y);
+    o+=LN(cx,it.y-30,cx,it.y+130,'ctr').replace('<line','<line opacity=".0"');
+    const bx=770,by=it.y+14;
+    o+=LN(cx+w/2+14,by,bx-14,by,'dm')+`<circle class="bal" cx="${bx}" cy="${by}" r="13"/>`+TX(bx,by+4,String(it.n),'balt')+TX(bx+22,by+4,it.t,'tx','start');
+  });
+  // eixo de montagem
+  o+=LN(cx,40,cx,560,'ctr');
+  // saia
+  const sx=120;o+=`<rect class="fl" x="${sx}" y="250" width="60" height="110"/>`;
+  {const p=[];for(let i=0;i<12;i++)p.push([sx+(i%2?0:60),250+i*9.2]);o+=PL(p,'sk')}
+  o+=LN(sx+60,300,cx-w/2-14,300,'dm')+TX(sx+30,380,'saia (6)','tx');o+=`<circle class="bal" cx="${sx+30}" cy="236" r="13"/>`+TX(sx+30,240,'6','balt');
+  // calha
+  o+=`<g>${LN(30,490,150,470,'ln')}${[...Array(8)].map((_,i)=>`<circle class="fl" cx="${f(42+i*14.5)}" cy="${f(488-i*2.4)}" r="4"/>`).join('')}</g>`;
+  o+=`<circle class="bal" cx="90" cy="450" r="13"/>`+TX(90,454,'7','balt')+TX(90,520,'calha (7)','tx');
+  o+=TX(20,590,'Ordem de montagem: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8. A saia (6) e a calha (7) entram depois da mesa giratória.','tm','start');
+  return svgWrap(1000,600,o);
+}
+
+function d5(){
+  const sc=.4,ox=760,oy=470, a=4*Math.PI/180;
+  const X=x=>ox+x*sc,Yy=y=>oy-y*sc;
+  let o=TX(20,24,'Prancha 5 · Calha de alimentação por gravidade (vista lateral)','ttl','start');
+  o+=LN(X(-2000),Yy(0),X(400),Yy(0),'floorl');
+  const yEnd=900,L=1800,yStart=yEnd+L*Math.tan(a);
+  // rolos e longarina
+  o+=LN(X(-L),Yy(yStart-30),X(0),Yy(yEnd-30),'ln')+LN(X(-L),Yy(yStart-70),X(0),Yy(yEnd-70),'ln');
+  for(let i=0;i<18;i++){const d=50+i*100;o+=`<circle class="fl" cx="${f(X(-d))}" cy="${f(Yy(yEnd+d*Math.tan(a)-30))}" r="${f(30*sc)}"/>`}
+  // pés
+  [300,1600].forEach(d=>{const yt=yEnd+d*Math.tan(a)-70;o+=RC(X(-d-25),Yy(yt),50*sc,yt*sc,'fl')});
+  // ensacadeira
+  o+=RC(X(-L-450),Yy(yStart+620),450*sc,700*sc,'fl')+TX(X(-L-225),Yy(yStart+270),'ENSACADEIRA','tm');
+  // saco
+  const bd=900;const bxp=X(-bd),byp=Yy(yEnd+bd*Math.tan(a)+10);
+  o+=`<g transform="rotate(${-4} ${f(bxp)} ${f(byp)})"><rect class="bag" x="${f(bxp-290*sc)}" y="${f(byp-135*sc)}" width="${f(580*sc)}" height="${f(135*sc)}"/></g>`;
+  o+=LN(X(-bd+350),Yy(yEnd+(bd-350)*Math.tan(a)+160),X(-bd+120),Yy(yEnd+(bd-120)*Math.tan(a)+160),'dm')+AR(X(-bd+120),Yy(yEnd+(bd-120)*Math.tan(a)+160),1,0.07);
+  // palete (borda)
+  o+=RC(X(40),Yy(900),360*sc,150*sc,'wd')+TX(X(220),Yy(900)+(150*sc)/2+4,'palete','tm');
+  o+=RC(X(40),Yy(0),360*sc,750*sc,'fl').replace('class="fl"','class="hid"');
+  // ângulo
+  o+=`<path class="dm" d="M ${f(X(-600))} ${f(Yy(yEnd+600*Math.tan(a)-70))} L ${f(X(-300))} ${f(Yy(yEnd+300*Math.tan(a)-70))}"/>`;
+  o+=TX(X(-1100),Yy(yEnd+1100*Math.tan(a)-70)+30,'α = 3° a 5° (adotado 4°)','dt');
+  // cotas
+  o+=dimV(Yy(yEnd),Yy(0),X(480),'900',X(400),X(400),'r');
+  o+=dimV(Yy(yStart),Yy(0),X(-L-70),Math.round(yStart)+'',X(-L),X(-L),'l');
+  o+=dimH(X(-L),X(0),Yy(0)+50,'1800',Yy(0),Yy(0));
+  o+=dimH(X(0),X(40),Yy(900)-34,'40',Yy(900),Yy(900));
+  o+=TX(X(-1000),Yy(yStart+620),'18 rolos Ø60 · passo 100','tm');
+  o+=TX(X(-300),Yy(0)+80,'2 pares de pés em tubo 50×50','tm');
+  o+=TX(20,590,'O último rolete fica à mesma altura do topo do palete (900 mm); o saco só desliza na horizontal.','tm','start');
+  return svgWrap(1000,600,o);
+}
+
+const D={d1:[d1,'Elevação · vazio × 6 camadas'],d2:[d2,'Planta · base, mesa, calha e demarcação 5S'],d3:[d3,'Corte A–A · mesa giratória'],d4:[d4,'Explodido · ordem de montagem'],d5:[d5,'Calha · inclinação e alturas']};
+function show2d(k){$('#sheet').innerHTML=D[k][0]();$('#capL').textContent=D[k][1];$$('#tabs2d .btn').forEach(b=>b.classList.toggle('on',b.dataset.d===k))}
+
+/* ================= start ================= */
+buildSteps();buildBom();wire();readout();
+$$('#tabs2d .btn').forEach(b=>b.onclick=()=>show2d(b.dataset.d));
+show2d('d1');
+if(ok3d){try{init3D()}catch(e){ok3d=false;console.error(e)}}
+if(!ok3d){$('#vfail').style.display='grid'}
+})();
+
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const brl=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
+$('#yr').textContent=new Date().getFullYear();
+
+/* menu */
+$('#burger').onclick=()=>$('#links').classList.toggle('open');
+$$('#links a').forEach(a=>a.onclick=()=>$('#links').classList.remove('open'));
+const secs=$$('section[id]');
+addEventListener('scroll',()=>{
+  const y=scrollY+120;let cur='';
+  secs.forEach(s=>{if(s.offsetTop<=y)cur=s.id});
+  $$('#links a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
+  $('#top').style.display=scrollY>600?'block':'none';
+});
+$('#top').onclick=()=>scrollTo({top:0,behavior:'smooth'});
+
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+$$('.rev').forEach(e=>io.observe(e));
+
+/* counters */
+$$('[data-count]').forEach(el=>{
+  const t=+el.dataset.count;let n=0;
+  if(!t){el.textContent='0';return}
+  const step=()=>{n+=Math.max(1,t/40);if(n>=t){el.textContent=t;return}el.textContent=Math.floor(n);requestAnimationFrame(step)};
+  step();
+});
+
+/* simulator */
+const S=1.85, G=380, PAL=15, LAY=14, KG=100, W=150;
+const y=h=>G-h*S;
+function bag(x,yy,w,h){let o='';const k=3,bw=w/k;for(let i=0;i<k;i++)o+=`<rect x="${x+i*bw+1}" y="${yy}" width="${bw-2}" height="${h-1}" rx="3" fill="#3b4650" stroke="#93a0a8"/>`;return o}
+function worker(wx,top){
+  const hy=y(150), hip=y(95)+20, hand=Math.max(hy+20,Math.min(G-40,y(top)));
+  return `<g stroke="#e9edef" stroke-width="5" stroke-linecap="round" fill="none"><circle cx="${wx}" cy="${hy-4}" r="12" fill="#e9edef" stroke="none"/><line x1="${wx}" y1="${hy+8}" x2="${wx}" y2="${hip}"/><line x1="${wx}" y1="${hip}" x2="${wx-14}" y2="${G}"/><line x1="${wx}" y1="${hip}" x2="${wx+14}" y2="${G}"/><polyline points="${wx},${hy+24} ${wx+40},${(hy+24+hand)/2} ${wx+78},${hand}"/></g>`;
+}
+function topLine(x,top,col){return `<line x1="${x-14}" y1="${y(top)}" x2="${x+W+14}" y2="${y(top)}" stroke="${col}" stroke-width="2" stroke-dasharray="6 4"/><text x="${x+W/2}" y="${y(top)-7}" text-anchor="middle" font-family="monospace" font-size="12" fill="${col}">${Math.round(top)} cm</text>`}
+const flex=t=>Math.min(100,Math.round(Math.abs(t-90)/90*140));
+const col=i=>i<15?'#2fd08a':i<45?'#F59E0B':'#ff5a47';
+function draw(){
+  const n=+$('#layers').value; $('#lv').textContent=n;
+  const tT=PAL+n*LAY, eT=90, base=eT-n*LAY;
+  let s=`<rect x="0" y="${G}" width="760" height="${520-G}" fill="#13171a"/><line x1="0" y1="${G}" x2="760" y2="${G}" stroke="#2a3238" stroke-width="2"/>`;
+  s+=`<rect x="0" y="${y(95)}" width="760" height="${15*S}" fill="rgba(47,208,138,.12)"/>`;
+  s+=`<line x1="0" y1="${y(95)}" x2="760" y2="${y(95)}" stroke="#2fd08a" stroke-dasharray="5 5" opacity=".6"/><line x1="0" y1="${y(80)}" x2="760" y2="${y(80)}" stroke="#2fd08a" stroke-dasharray="5 5" opacity=".6"/>`;
+  s+=`<text x="8" y="${y(95)-6}" font-family="monospace" font-size="11" fill="#2fd08a">ZONA ERGONÔMICA 80–95 cm</text>`;
+  for(let h=0;h<=180;h+=20){s+=`<text x="752" y="${y(h)+4}" text-anchor="end" font-family="monospace" font-size="9" fill="#93a0a8">${h}</text>`}
+  s+=`<line x1="380" y1="40" x2="380" y2="${G}" stroke="#2a3238" stroke-dasharray="3 5"/>`;
+  s+=`<text x="190" y="26" text-anchor="middle" font-family="monospace" font-size="13" fill="#ff5a47">PALETE NO CHÃO</text><text x="570" y="26" text-anchor="middle" font-family="monospace" font-size="13" fill="#2fd08a">ERGO PALET</text>`;
+  const x1=115;
+  s+=worker(55,tT);
+  s+=`<rect x="${x1}" y="${y(PAL)}" width="${W}" height="${PAL*S}" fill="#6b5a3a" stroke="#e9edef"/>`;
+  for(let i=0;i<n;i++)s+=bag(x1,y(PAL+i*LAY+LAY),W,LAY*S);
+  s+=topLine(x1,tT,tT>=80&&tT<=95?'#2fd08a':'#ff5a47');
+  const x2=495, floor=Math.min(0,base-4), yf=y(floor), yb=y(base);
+  s+=worker(440,eT);
+  if(floor<0)s+=`<rect x="${x2-20}" y="${G}" width="${W+40}" height="${yf-G}" fill="#07090a" stroke="#F59E0B" stroke-dasharray="4 4"/>`;
+  s+=`<rect x="${x2-10}" y="${yf-8}" width="${W+20}" height="8" fill="#2a3238" stroke="#93a0a8"/>`;
+  const yt=yf-8, ya=yb+8, mh=yt-ya;
+  s+=`<g stroke="#e9edef" stroke-width="5"><line x1="${x2}" y1="${ya}" x2="${x2+W}" y2="${yt}"/><line x1="${x2+W}" y1="${ya}" x2="${x2}" y2="${yt}"/></g>`;
+  const zz=Math.max(2,Math.floor(mh/14));
+  [x2+22,x2+W-22].forEach(x=>{let d=`M${x} ${ya}`;for(let i=0;i<zz;i++)d+=` l7 ${mh/zz/2} l-14 ${mh/zz/2}`;d+=` L${x} ${yt}`;s+=`<path d="${d}" stroke="#2fd08a" stroke-width="3" fill="none"/>`});
+  s+=`<rect x="${x2-8}" y="${yb}" width="${W+16}" height="8" fill="#F59E0B"/>`;
+  for(let i=0;i<n;i++)s+=bag(x2,y(base+i*LAY+LAY),W,LAY*S);
+  s+=topLine(x2,eT,'#2fd08a');
+  $('#simsvg').innerHTML=s;
+  const zt=tT>=80&&tT<=95, ze=eT>=80&&eT<=95;
+  $('#ht').textContent=tT+' cm'; $('#he').textContent=eT+' cm';
+  $('#zt').textContent=zt?'DENTRO':'FORA'; $('#zt').className=zt?'ok':'bad';
+  $('#ze').textContent=ze?'DENTRO':'FORA'; $('#ze').className=ze?'ok':'bad';
+  const ft=flex(tT), fe=flex(eT);
+  $('#ft').textContent=ft+'%'; $('#fx').textContent=fe+'%';
+  $('#mt').style.width=ft+'%'; $('#mt').style.background=col(ft);
+  $('#me').style.width=Math.max(fe,2)+'%'; $('#me').style.background=col(fe);
+  $('#ol').textContent=(n*KG)+' kg';
+  $('#os').textContent=(n*LAY)+' cm';
+  const w=$('#warn');
+  if(n*LAY>85){w.style.display='block';w.textContent='Curso de '+(n*LAY)+' cm: acima de ~6 camadas a plataforma desce abaixo do piso. Exige base rebaixada (fosso de ~500 mm) com proteção NR-12 ou limite de camadas. Veja o modelo 3D abaixo.'}
+  else w.style.display='none';
+}
+$('#layers').oninput=draw;
+draw();
+
+/* tabs */
+$$('.tab').forEach(t=>t.onclick=()=>{
+  $$('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');
+  $$('.pane').forEach((p,i)=>p.classList.toggle('on',i==t.dataset.t));
+});
+
+/* Hooke */
+function hooke(){
+  const m=+$('#hm').value||0, x=(+$('#hx').value||0)/100;
+  if(!m||!x){$('#hk').textContent='—';$('#hk4').textContent='—';return}
+  const k=m*9.81/x;
+  $('#hk').textContent=(k/1000).toFixed(2)+' N/mm';
+  $('#hk4').textContent=(k/4000).toFixed(2)+' N/mm';
+}
+$('#hm').oninput=hooke;$('#hx').oninput=hooke;hooke();
+
+/* ROI */
+function roi(){
+  const c1=+$('#c1').value||0,c2=+$('#c2').value||0,c3=+$('#c3').value||0,c4=+$('#c4').value||0,c5=Math.max(1,+$('#c5').value||1);
+  const eco=(c2-c1)*c5;
+  $('#r1').textContent=brl(eco);
+  $('#r2').textContent=c2>0?Math.round((1-c1/c2)*100)+'%':'—';
+  const an=c3*c4;
+  $('#r3').textContent=brl(an);
+  const inv=c1*c5;
+  $('#r4').textContent=an>0?(inv/an*12<1?'menos de 1 mês':(inv/an*12).toFixed(1).replace('.',',')+' meses'):'—';
+}
+$$('#roi input').forEach(i=>i.oninput=roi);roi();
+
+/* checklist */
+const cb=$$('#check input');
+cb.forEach(c=>c.onchange=()=>{
+  const n=cb.filter(x=>x.checked).length;
+  $('#pbar').style.width=(n/cb.length*100)+'%';
+  $('#ptxt').textContent=n+' de '+cb.length+' itens verificados'+(n===cb.length?' · Liberado para operação ✓':'');
+});
+
+/* FAQ search */
+$('#fs').oninput=e=>{
+  const q=e.target.value.toLowerCase().trim();let v=0;
+  $$('#faq details').forEach(d=>{const ok=!q||d.textContent.toLowerCase().includes(q);d.classList.toggle('hide',!ok);if(ok)v++;if(q&&ok)d.open=false});
+  $('#fe').classList.toggle('hide',v>0);
+};
+
+/* Dúvidas */
+const KEY='ergopalet_duvidas';
+let list=[];
+try{list=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){list=[]}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(list))}catch(e){}}
+function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){
+  const b=$('#inbox');
+  if(!list.length){b.innerHTML='<div class="empty">Nenhuma dúvida registrada ainda.</div>';$('#clr').style.display='none';return}
+  b.innerHTML=list.slice().reverse().map(q=>`<div class="q"><small>${esc(q.date)} · ${esc(q.topic)}</small><p>${esc(q.msg)}</p><em>Protocolo ${esc(q.id)}</em></div>`).join('');
+  $('#clr').style.display='inline-flex';
+}
+$('#form').onsubmit=e=>{
+  e.preventDefault();
+  const q={id:'EP-'+Date.now().toString(36).toUpperCase(),date:new Date().toLocaleString('pt-BR'),name:$('#nm').value.trim(),email:$('#em').value.trim(),topic:$('#tp').value,msg:$('#ms').value.trim()};
+  list.push(q);save();render();
+  const body=encodeURIComponent(`Protocolo: ${q.id}\nNome: ${q.name}\nE-mail: ${q.email}\nAssunto: ${q.topic}\n\n${q.msg}`);
+  const mb=$('#mb');mb.style.display='block';
+  mb.innerHTML=`Dúvida registrada, ${esc(q.name)}! Protocolo <b>${q.id}</b>. Para enviá-la a um responsável, <a href="mailto:?subject=${encodeURIComponent('Dúvida Ergo Palet '+q.id)}&body=${body}" style="color:inherit;font-weight:700">clique aqui para abrir seu e-mail</a>.`;
+  e.target.reset();
+};
+$('#clr').onclick=()=>{if(confirm('Apagar o histórico de dúvidas deste navegador?')){list=[];save();render()}};
+render();
+})();
+</script>
+</body>
+</html>
